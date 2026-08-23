@@ -42,7 +42,7 @@ export default function NewsroomPage() {
   const handleSaveArticle = async (articleData: Partial<Article>) => {
     if (articleData.id) {
       // EDIT — use dedicated updateArticleDb action
-      await updateArticleDb(articleData.id as string, articleData);
+      await updateArticleDb(articleData.id, articleData);
       notify(`Article updated successfully!`);
     } else {
       // CREATE — use existing createArticle action

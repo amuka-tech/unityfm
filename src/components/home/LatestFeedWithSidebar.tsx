@@ -224,8 +224,8 @@ export function LatestFeedWithSidebar({
               </div>
               
               <div className="mt-3">
-                <h3 className="font-bold text-sm text-gray-100">{broadcastState?.current_program || 'Unity News Hour'}</h3>
-                <p className="text-xs text-gray-400 mt-1 line-clamp-1">{broadcastState?.next_program ? `Up Next: ${broadcastState.next_program}` : 'Stay tuned for more updates'}</p>
+                <h3 className="font-bold text-sm text-gray-100">{(broadcastState as any)?.current_program || 'Unity News Hour'}</h3>
+                <p className="text-xs text-gray-400 mt-1 line-clamp-1">{(broadcastState as any)?.next_program ? `Up Next: ${(broadcastState as any).next_program}` : 'Stay tuned for more updates'}</p>
               </div>
             </div>
 

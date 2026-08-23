@@ -75,7 +75,7 @@ export function LiveBlogDesk() {
   const handleToggleEventStatus = async () => {
     if (!selectedEvent) return;
     try {
-      await toggleLiveBlogStatusDb(selectedEvent.id);
+      await toggleLiveBlogStatusDb(selectedEvent.id, !selectedEvent.is_active);
       const updatedEvent = { ...selectedEvent, is_active: !selectedEvent.is_active };
       setSelectedEvent(updatedEvent);
       setEvents(events.map(e => e.id === updatedEvent.id ? updatedEvent : e));
@@ -92,13 +92,13 @@ export function LiveBlogDesk() {
         await updateLiveBlogUpdateDb(
           editingUpdate.id, 
           newUpdate.content, 
-          newUpdate.is_key_event ? 1 : 0
+          !!newUpdate.is_key_event
         );
       } else {
         await addLiveBlogUpdateDb(
           selectedEvent.id,
           newUpdate.content,
-          newUpdate.is_key_event ? 1 : 0
+          !!newUpdate.is_key_event
         );
       }
       await loadUpdates(selectedEvent.id);

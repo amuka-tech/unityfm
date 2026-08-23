@@ -143,7 +143,11 @@ export const api = {
 
   // Whistleblower
   async submitTip(tip: WhistleblowerSubmission): Promise<{ success: boolean; reference: string; message: string }> {
-    return await createTipDb(tip);
+    const fd = new FormData();
+    Object.entries(tip).forEach(([k, v]) => {
+      if (v !== undefined) fd.append(k, v);
+    });
+    return await createTipDb(fd);
   },
 
   async getTips(): Promise<any[]> {
