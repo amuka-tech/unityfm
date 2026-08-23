@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-editorial: 'Georgia', 'Merriweather', serif;
+  --font-heading: 'Montserrat', 'Outfit', system-ui, sans-serif;
+}
+
+body {
+  background-color: #F8F9FA;
+  color: #111111;
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1F1F1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4C4C4;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8B0000;
+}
+
+/* Ticker marquee animation */
+@keyframes tickerAnim {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-ticker {
+  animation: tickerAnim 30s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* Drop-cap for rich article text */
+.prose p.lead:first-of-type::first-letter {
+  font-size: 3.2rem;
+  line-height: 2.8rem;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+  float: left;
+  font-weight: 900;
+  color: #8B0000;
+  font-family: var(--font-heading);
+}
