@@ -10,8 +10,8 @@ const nextConfig = {
       },
     ],
   },
+  serverExternalPackages: ["better-sqlite3", "node-media-server"],
   experimental: {
-    serverComponentsExternalPackages: ["better-sqlite3", "node-media-server"],
     serverActions: {
       bodySizeLimit: '50mb',
     },
