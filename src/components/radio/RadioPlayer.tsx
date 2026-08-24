@@ -4,8 +4,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, Radio, ExternalLink, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
-// The Radio Garden API stream URL
-const STREAM_URL = 'https://radio.garden/api/ara/content/listen/LHckS4Xk/channel.mp3';
+// The direct stream URL (Zeno) for native HTML5 playback without CORS issues
+const STREAM_URL = 'https://stream.zeno.fm/27hu4m1x768uv';
 
 export function RadioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
