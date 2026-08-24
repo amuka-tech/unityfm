@@ -72,3 +72,5 @@ export default async function ArticleDetailPage({ params }: ArticlePageProps) {
     </div>
   );
 }
+
+export function generateStaticParams() { return [{ category: 'politics', slug: 'dummy' }]; }

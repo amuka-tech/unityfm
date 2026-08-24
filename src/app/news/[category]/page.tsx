@@ -193,3 +193,5 @@ export default async function CategoryPage({
     </div>
   );
 }
+
+export function generateStaticParams() { return [{ category: 'politics' }, { category: 'sports' }, { category: 'business' }, { category: 'lifestyle' }]; }

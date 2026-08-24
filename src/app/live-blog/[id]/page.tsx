@@ -49,3 +49,5 @@ export default async function LiveBlogPage({ params }: LiveBlogPageProps) {
     </div>
   );
 }
+
+export function generateStaticParams() { return [{ id: '1' }]; }
