@@ -5,7 +5,9 @@ import { Radio, Play, Pause, Loader2, Volume2, VolumeX } from 'lucide-react';
 import { useRadio } from '@/context/RadioContext';
 
 export function ListenLivePlayer() {
-  const { \n    showPlayer,\n    isPlaying, 
+  const { 
+    showPlayer,
+    isPlaying, 
     isLoading, 
     error, 
     togglePlay, 
