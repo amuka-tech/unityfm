@@ -114,7 +114,8 @@ export interface BroadcastState {
   };
 }
 
-export interface ScheduleProgram {\n  id: string | number;
+export interface ScheduleProgram {
+  id: string | number;
   show_name: string;
   presenter_name: string;
   presenter_role?: string;
