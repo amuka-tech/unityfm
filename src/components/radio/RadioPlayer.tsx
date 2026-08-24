@@ -97,10 +97,12 @@ export function RadioPlayer() {
     }
   };
 
-  if (!isPlayerVisible) return null;
-
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 border-t border-gray-800 text-white shadow-2xl">
+    <div 
+      className={`fixed bottom-0 left-0 right-0 z-50 bg-gray-900 border-t border-gray-800 text-white shadow-2xl transition-transform duration-300 ease-in-out ${
+        isPlayerVisible ? 'translate-y-0' : 'translate-y-full'
+      }`}
+    >
       <audio ref={audioRef} preload="none" />
       
       <div className="h-16 max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
@@ -175,7 +177,10 @@ export function RadioPlayer() {
           <div className="w-px h-6 bg-gray-700 hidden md:block"></div>
 
           <button
-            onClick={hidePlayer}
+            onClick={() => {
+              if (isPlaying) togglePlay();
+              hidePlayer();
+            }}
             className="flex items-center justify-center w-8 h-8 rounded-full text-gray-400 hover:bg-gray-800 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
