@@ -3,12 +3,22 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, Plus, MoreVertical, Edit2, Trash2, Mic2, Users } from 'lucide-react';
 
-const MOCK_SCHEDULE = [
-  { id: '1', time: '06:00 AM - 09:00 AM', show: 'Morning Breeze', host: 'DJ Okello', type: 'Live', status: 'upcoming' },
-  { id: '2', time: '09:00 AM - 12:00 PM', show: 'Lango Business Hour', host: 'Sarah A.', type: 'Live', status: 'upcoming' },
-  { id: '3', time: '12:00 PM - 02:00 PM', show: 'Midday Request', host: 'DJ Flex', type: 'Live', status: 'upcoming' },
-  { id: '4', time: '02:00 PM - 04:00 PM', show: 'Sports Update', host: 'Tony K.', type: 'Pre-recorded', status: 'upcoming' },
-  { id: '5', time: '04:00 PM - 07:00 PM', show: 'Evening Drive', host: 'MC Jimmy', type: 'Live', status: 'upcoming' },
+const WEEKDAY_SCHEDULE = [
+  { id: '1', time: '03:00 AM - 06:45 AM', show: 'Morning Devotion', host: 'Studio', type: 'Live' },
+  { id: '2', time: '06:45 AM - 07:00 AM', show: 'News in Luo', host: 'News Desk', type: 'Live' },
+  { id: '3', time: '07:00 AM - 08:30 AM', show: 'Announcements', host: 'Studio', type: 'Live' },
+  { id: '4', time: '08:30 AM - 10:45 AM', show: 'Odiko Alyet', host: 'Studio', type: 'Live' },
+  { id: '5', time: '10:45 AM - 11:00 AM', show: 'Sports Update', host: 'Sports Desk', type: 'Live' },
+  { id: '6', time: '11:00 AM - 12:45 PM', show: 'Mid Morning Rave', host: 'Studio', type: 'Live' },
+  { id: '7', time: '12:45 PM - 01:00 PM', show: 'News in Luo', host: 'News Desk', type: 'Live' },
+  { id: '8', time: '01:00 PM - 02:00 PM', show: 'Announcements', host: 'Studio', type: 'Live' },
+  { id: '9', time: '02:00 PM - 04:30 PM', show: 'The Afternoon Drive', host: 'Studio', type: 'Live' },
+  { id: '10', time: '04:30 PM - 05:00 PM', show: 'Sports Update', host: 'Sports Desk', type: 'Live' },
+  { id: '11', time: '05:00 PM - 06:45 PM', show: 'Announcements', host: 'Studio', type: 'Live' },
+  { id: '12', time: '06:45 PM - 07:00 PM', show: 'News in Luo', host: 'News Desk', type: 'Live' },
+  { id: '13', time: '07:00 PM - 10:00 PM', show: 'Gwec Apoko', host: 'Studio', type: 'Live' },
+  { id: '14', time: '10:00 PM - 11:00 PM', show: 'Sports Updates', host: 'Sports Desk', type: 'Live' },
+  { id: '15', time: '11:00 PM - 03:00 AM', show: 'Quiet Storm', host: 'Studio', type: 'Live' },
 ];
 
 export function RadioScheduleDesk() {
@@ -54,7 +64,7 @@ export function RadioScheduleDesk() {
 
         {/* Schedule List */}
         <div className="divide-y divide-gray-100">
-          {MOCK_SCHEDULE.map((slot) => (
+          {(activeDay === 'Saturday' || activeDay === 'Sunday' ? [] : WEEKDAY_SCHEDULE).map((slot) => (
             <div key={slot.id} className="p-4 sm:px-6 flex items-center justify-between hover:bg-gray-50 transition-colors group">
               <div className="flex items-start gap-4">
                 <div className="hidden sm:flex flex-col items-center justify-center w-12 h-12 bg-gray-100 rounded-lg text-gray-500">

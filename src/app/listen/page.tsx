@@ -85,17 +85,26 @@ export default function ListenLivePage() {
                 </div>
                 <h3 className="font-bold text-gray-900">Today's Schedule</h3>
               </div>
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto no-scrollbar">
                 {[
-                  { time: '06:00 - 10:00', show: 'Morning Breeze' },
-                  { time: '10:00 - 13:00', show: 'Midmorning Mix' },
-                  { time: '13:00 - 16:00', show: 'Lango Talks' },
-                  { time: '16:00 - 19:00', show: 'Evening Drive' },
-                  { time: '19:00 - 20:00', show: 'News Hour' },
-                  { time: '20:00 - 00:00', show: 'Night Shift' },
+                  { time: '03:00 AM - 06:45 AM', show: 'Morning Devotion' },
+                  { time: '06:45 AM - 07:00 AM', show: 'News in Luo' },
+                  { time: '07:00 AM - 08:30 AM', show: 'Announcements' },
+                  { time: '08:30 AM - 10:45 AM', show: 'Odiko Alyet' },
+                  { time: '10:45 AM - 11:00 AM', show: 'Sports Update' },
+                  { time: '11:00 AM - 12:45 PM', show: 'Mid Morning Rave' },
+                  { time: '12:45 PM - 01:00 PM', show: 'News in Luo' },
+                  { time: '01:00 PM - 02:00 PM', show: 'Announcements' },
+                  { time: '02:00 PM - 04:30 PM', show: 'The Afternoon Drive' },
+                  { time: '04:30 PM - 05:00 PM', show: 'Sports Update' },
+                  { time: '05:00 PM - 06:45 PM', show: 'Announcements' },
+                  { time: '06:45 PM - 07:00 PM', show: 'News in Luo' },
+                  { time: '07:00 PM - 10:00 PM', show: 'Gwec Apoko' },
+                  { time: '10:00 PM - 11:00 PM', show: 'Sports Updates' },
+                  { time: '11:00 PM - 03:00 AM', show: 'Quiet Storm' },
                 ].map((slot, i) => (
                   <div key={i} className="p-4 sm:p-5 flex items-start gap-4 hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 w-28 flex-shrink-0 mt-0.5 bg-white border border-gray-200 px-2 py-1 rounded">
+                    <div className="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 w-36 flex-shrink-0 mt-0.5 bg-white border border-gray-200 px-2 py-1 rounded">
                       <Clock className="w-3.5 h-3.5 text-brand-gold" />
                       {slot.time}
                     </div>
