@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRadio } from '@/context/RadioContext';
 import { 
   Menu, 
   X, 
@@ -19,7 +20,8 @@ import { useDataSaver } from '@/context/DataSaverContext';
 
 export function Header() {
   const pathname = usePathname();
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { showPlayer, isPlaying, isLoading, togglePlay } = useRadio();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [newsDropdownOpen, setNewsDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -155,17 +157,20 @@ export function Header() {
 
 
             {/* Prominent Glowing Listen Live Button */}
-            <Link
-              href="/listen"
+            <button
+              onClick={() => {
+                if (!isPlaying) togglePlay();
+                showPlayer();
+              }}
               className="group relative inline-flex items-center space-x-2 px-3.5 sm:px-4 py-2 rounded-brand bg-brand-crimson hover:bg-brand-crimson-light text-white text-xs sm:text-sm font-bold shadow-crimson transition-all transform hover:-translate-y-0.5"
             >
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-300 opacity-75"></span>
+                <span className={`absolute inline-flex h-full w-full rounded-full bg-red-300 opacity-75 ${isPlaying ? 'animate-ping' : ''}`}></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
               </span>
-              <span className="tracking-wide">LISTEN LIVE</span>
-              <Radio className="w-4 h-4 text-brand-gold group-hover:scale-110 transition-transform" />
-            </Link>
+              <span className="tracking-wide">{isLoading ? 'LOADING...' : isPlaying ? 'PLAYING LIVE' : 'LISTEN LIVE'}</span>
+              <Radio className={`w-4 h-4 text-brand-gold transition-transform ${isPlaying ? 'animate-pulse' : 'group-hover:scale-110'}`} />
+            </button>
 
             {/* Mobile Menu Toggle Button */}
             <button

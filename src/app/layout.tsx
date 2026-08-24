@@ -69,7 +69,15 @@ export default function RootLayout({
       <body className={`min-h-screen flex flex-col justify-between antialiased ${poppins.variable} ${poppins.className}`} suppressHydrationWarning>
         <DataSaverProvider>
           <AuthProvider>
-            
+            <RadioProvider>
+              <div className="flex flex-col min-h-screen">
+                <PublicLayoutWrapper>
+                  {children}
+                </PublicLayoutWrapper>
+                {/* Uganda DPPA 2019 Privacy & Cookie Consent */}
+                <CookieConsentBanner />
+              </div>
+            </RadioProvider>
           </AuthProvider>
         </DataSaverProvider>
       </body>

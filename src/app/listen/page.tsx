@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { Radio, ExternalLink, Calendar, Clock } from 'lucide-react';
+import { ListenLivePlayer } from '@/components/radio/ListenLivePlayer';
 
 export const metadata: Metadata = {
   title: 'Listen Live — Radio Unity FM 97.7',
@@ -34,31 +35,7 @@ export default function ListenLivePage() {
           {/* Left Column: Player */}
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-              <div className="w-full h-[500px] flex flex-col items-center justify-center bg-gray-900 text-white p-8 relative">
-                {/* Background visualizer effect */}
-                <div className="absolute inset-0 overflow-hidden opacity-20">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-crimson rounded-full blur-[100px] animate-pulse"></div>
-                </div>
-                
-                <div className="relative z-10 text-center mb-12">
-                  <div className="w-32 h-32 mx-auto bg-gray-800 rounded-full flex items-center justify-center mb-6 shadow-2xl border-4 border-gray-700">
-                    <Radio className="w-16 h-16 text-brand-crimson" />
-                  </div>
-                  <h2 className="text-3xl font-black mb-2">Radio Unity FM</h2>
-                  <p className="text-gray-400">97.7 FM • Live Broadcast</p>
-                </div>
-
-                <div className="relative z-10 w-full max-w-md bg-gray-800 rounded-2xl p-4 shadow-xl border border-gray-700">
-                  <audio 
-                    controls 
-                    autoPlay 
-                    className="w-full h-12"
-                    src="https://stream.zeno.fm/27hu4m1x768uv"
-                  >
-                    Your browser does not support the audio element.
-                  </audio>
-                </div>
-              </div>
+              <ListenLivePlayer />
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm text-center">
