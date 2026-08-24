@@ -31,6 +31,35 @@ export function RadioProvider({ children }: { children: React.ReactNode }) {
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
 
   useEffect(() => {
+    const handleGlobalError = (event: ErrorEvent) => {
+      if (
+        event.message === '[object Event]' || 
+        event.error instanceof Event ||
+        (event.error && event.error.toString && event.error.toString() === '[object Event]')
+      ) {
+        event.preventDefault();
+      }
+    };
+
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      if (
+        event.reason instanceof Event ||
+        (event.reason && event.reason.toString && event.reason.toString() === '[object Event]')
+      ) {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener('error', handleGlobalError);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+
+    return () => {
+      window.removeEventListener('error', handleGlobalError);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, []);
+
+  useEffect(() => {
     // Create the global audio element
     const audio = new Audio();
     audio.preload = 'none';
