@@ -27,7 +27,10 @@ export function NowPlayingBanner() {
         <p className="text-sm text-gray-600 mb-4">Broadcasting live from Northern Uganda</p>
         
         <button 
-          onClick={() => {\n            if (!isPlaying) showPlayer();\n            togglePlay();\n          }}
+          onClick={() => {
+            if (!isPlaying) showPlayer();
+            togglePlay();
+          }}
           className={`flex items-center justify-center gap-2 w-full font-medium py-2 px-4 rounded-lg transition-colors mb-4 ${
             isPlaying ? 'bg-gray-100 hover:bg-gray-200 text-gray-900' : 'bg-brand-crimson hover:bg-red-700 text-white'
           }`}

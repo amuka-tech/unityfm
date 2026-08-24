@@ -34,7 +34,10 @@ export function ListenLivePlayer() {
         
         {/* Big Play Button */}
         <button
-          onClick={() => {\n            if (!isPlaying) showPlayer();\n            togglePlay();\n          }}
+          onClick={() => {
+            if (!isPlaying) showPlayer();
+            togglePlay();
+          }}
           className={`w-20 h-20 flex items-center justify-center rounded-full transition-all shadow-lg ${
             isPlaying 
               ? 'bg-gray-900 hover:bg-black text-brand-crimson border-2 border-brand-crimson' 
