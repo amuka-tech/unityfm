@@ -103,6 +103,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     localStorage.setItem('admin-notifications-seen', now.toString());
   };
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (isInitialized && !user) {
+      router.push('/admin');
+    }
+  }, [isInitialized, user, router]);
+
   // Persist dark mode in localStorage
   useEffect(() => {
     const saved = localStorage.getItem('admin-dark-mode');
