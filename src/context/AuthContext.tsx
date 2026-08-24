@@ -80,19 +80,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Check server session cookie first
-    getServerSession().then((serverUser) => {
-      if (serverUser) {
-        setUser(serverUser);
-        setCurrentRole(serverUser.role);
-      } else {
+    getServerSession()
+      .then((serverUser) => {
+        if (serverUser) {
+          setUser(serverUser);
+          setCurrentRole(serverUser.role);
+        } else {
+          const savedRole = localStorage.getItem('unity_admin_role') as Role;
+          if (savedRole && mockUsersByRole[savedRole]) {
+            setUser(mockUsersByRole[savedRole]);
+            setCurrentRole(savedRole);
+          }
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to get server session:', err);
         const savedRole = localStorage.getItem('unity_admin_role') as Role;
         if (savedRole && mockUsersByRole[savedRole]) {
           setUser(mockUsersByRole[savedRole]);
           setCurrentRole(savedRole);
         }
-      }
-      setIsInitialized(true);
-    });
+      })
+      .finally(() => {
+        setIsInitialized(true);
+      });
   }, []);
 
   const setRole = async (role: Role) => {
