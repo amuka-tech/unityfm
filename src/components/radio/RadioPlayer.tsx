@@ -1,11 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Play, Pause, Volume2, VolumeX, Radio, ExternalLink, Loader2, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRadio } from '@/context/RadioContext';
+import { getCurrentShow } from '@/lib/schedule';
 
 export function RadioPlayer() {
+  const [currentShow, setCurrentShow] = useState(getCurrentShow());
+
+  useEffect(() => {
+    const interval = setInterval(() => setCurrentShow(getCurrentShow()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { 
     isPlayerVisible, 
     hidePlayer, 
@@ -37,18 +45,18 @@ export function RadioPlayer() {
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-sm sm:text-base text-white truncate">Radio Unity FM</span>
-              <span className="hidden sm:inline-block text-xs font-medium text-gray-400 bg-gray-800 px-1.5 py-0.5 rounded">97.7</span>
+              <span className="font-bold text-sm sm:text-base text-white truncate">{currentShow.show}</span>
+              <span className="hidden sm:inline-block text-[10px] font-bold text-brand-gold bg-brand-gold/10 px-1.5 py-0.5 rounded border border-brand-gold/20">97.7 FM</span>
             </div>
             <p className="text-xs text-gray-400 truncate">
               {error ? (
                 <span className="text-red-400">Stream offline or blocked</span>
               ) : isPlaying ? (
                 <span className="text-brand-crimson font-medium flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-crimson animate-pulse" /> Live Now
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-crimson animate-pulse" /> Live Now &bull; with {currentShow.host}
                 </span>
               ) : (
-                'Broadcasting from Northern Uganda'
+                `with ${currentShow.host}`
               )}
             </p>
           </div>
