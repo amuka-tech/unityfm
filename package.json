@@ -14,9 +14,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.475.0",
-    "mpegts.js": "^1.8.2",
     "next": "15.1.7",
-    "node-media-server": "^4.2.8",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "tailwind-merge": "^3.0.1"

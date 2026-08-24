@@ -63,8 +63,8 @@ export function AdminSidebar({
     { href: '/admin/overview', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/newsroom', label: 'Newsroom', icon: FileText },
     { href: '/admin/live-blog', label: 'Live Blog', icon: Activity, badge: 'LIVE', badgeColor: 'bg-red-500 text-white' },
-    { href: '/admin/streams', label: 'Broadcast MCR', icon: Radio, badge: isLive ? 'LIVE' : null, badgeColor: 'bg-red-500 text-white' },
-    { href: '/admin/epg', label: 'TV Guide (EPG)', icon: Calendar },
+    { href: '/admin/streams', label: 'Radio Studio', icon: Radio, badge: isLive ? 'ON AIR' : null, badgeColor: 'bg-red-500 text-white' },
+    { href: '/admin/epg', label: 'Programme Schedule', icon: Calendar },
     { href: '/admin/whistleblower', label: 'Tips & Leaks', icon: ShieldAlert, badge: unreadTipsCount > 0 ? `${unreadTipsCount}` : null, badgeColor: 'bg-brand-crimson text-white' },
     { href: '/admin/settings', label: 'Roles & Settings', icon: Users }
   ];

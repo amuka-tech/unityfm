@@ -5,15 +5,14 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { RegionalHubSection } from '@/components/home/RegionalHubSection';
 import { PublicLiveBlogSection } from '@/components/home/PublicLiveBlogSection';
 import { LatestFeedWithSidebar } from '@/components/home/LatestFeedWithSidebar';
-import { VideoShowcase } from '@/components/home/VideoShowcase';
+import { PodcastSection } from '@/components/home/PodcastSection';
 import { WhistleblowerBanner } from '@/components/home/WhistleblowerBanner';
 import { OrganizationJsonLd } from '@/components/seo/JsonLd';
 
 export default async function HomePage() {
-  const [articles, breakingNews, broadcastState] = await Promise.all([
+  const [articles, breakingNews] = await Promise.all([
     api.getArticles(),
     api.getBreakingNews(),
-    api.getBroadcastState(),
   ]);
 
   const heroArticle = articles.find((a) => a.is_hero) || articles[0];
@@ -35,14 +34,11 @@ export default async function HomePage() {
       {/* 3.5. Breaking Live Blog Updates (Only renders if an active event exists) */}
       <PublicLiveBlogSection />
 
-      {/* 4. Latest Feed & Sidebar (Live TV Mini-Player, Most Read, Trending) */}
-      <LatestFeedWithSidebar
-        articles={articles}
-        broadcastState={broadcastState}
-      />
+      {/* 4. Latest Feed & Sidebar (Now Playing, Most Read, Trending) */}
+      <LatestFeedWithSidebar articles={articles} />
 
-      {/* 5. Video & Program Showcase */}
-      <VideoShowcase videoStories={articles} />
+      {/* 5. Podcast & Program Showcase */}
+      <PodcastSection />
 
       {/* 6. WhatsApp Community Whistleblower Banner */}
       <WhistleblowerBanner />

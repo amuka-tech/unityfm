@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  
   reactStrictMode: true,
   images: {
     unoptimized: true,
@@ -11,7 +11,7 @@ const nextConfig = {
       },
     ],
   },
-  serverExternalPackages: ["better-sqlite3", "node-media-server"],
+  serverExternalPackages: ["better-sqlite3"],
   experimental: {
     serverActions: {
       bodySizeLimit: '50mb',

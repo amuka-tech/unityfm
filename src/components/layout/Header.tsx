@@ -76,8 +76,9 @@ export function Header() {
     { name: 'Business & Agriculture', href: '/business' },
     { name: 'Sports', href: '/sports' },
     { name: 'Lifestyle & Culture', href: '/lifestyle' },
-    { name: 'Videos', href: '/videos' },
-    { name: 'TV Shows', href: '/shows' },
+    { name: 'Podcasts', href: '/podcasts' },
+    { name: 'On Air Schedule', href: '/shows' },
+    { name: 'Listen Live', href: '/listen' },
   ];
 
   return (

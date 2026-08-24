@@ -41,11 +41,8 @@ export default function OverviewPage() {
   return (
     <OverviewDesk
       articles={articles}
-      broadcast={broadcast}
-      epg={epg}
-      
       tips={tips}
-      onNavigateTab={(tab) => {
+      onNavigateTab={(tab: string) => {
         if (tab === 'broadcast') router.push('/admin/streams');
         else router.push(`/admin/${tab}`);
       }}

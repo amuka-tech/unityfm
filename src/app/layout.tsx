@@ -17,22 +17,22 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Unity TV Uganda — Broadcasting Across Northern Uganda | News & Live Stream',
-  description: 'Unity TV Uganda — Broadcasting Across Northern Uganda. Available on Youtube and Online Stream on our website with breaking news, agribusiness, and cultural programming.',
-  keywords: ['Unity TV Uganda', 'Broadcasting Across Northern Uganda', 'Lira City News', 'Lango Sub-region', 'Dokolo', 'Apac', 'Oyam', 'FUFA Drum Lango', 'Shea Butter Uganda', 'Live TV Lira'],
-  authors: [{ name: 'Unity TV Editorial Desk' }],
+  title: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda | News & Live Stream',
+  description: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda. Available on Youtube and Online Stream on our website with breaking news, agribusiness, and cultural programming.',
+  keywords: ['Radio Unity FM 97.7', 'Broadcasting Across Northern Uganda', 'Lira City News', 'Lango Sub-region', 'Dokolo', 'Apac', 'Oyam', 'FUFA Drum Lango', 'Shea Butter Uganda', 'Live Radio Lira'],
+  authors: [{ name: 'Radio Unity FM Editorial Desk' }],
   metadataBase: new URL('https://unitytv.ug'),
   openGraph: {
-    title: 'Unity TV Uganda — Broadcasting Across Northern Uganda',
-    description: 'Unity TV Uganda — Broadcasting Across Northern Uganda. Available on Youtube and Online Stream on our website.',
+    title: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda',
+    description: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda. Available on Youtube and Online Stream on our website.',
     url: 'https://unitytv.ug',
-    siteName: 'Unity TV Uganda',
+    siteName: 'Radio Unity FM 97.7',
     locale: 'en_UG',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Unity TV Uganda — Broadcasting Across Northern Uganda',
+    title: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda',
     description: 'Available on Youtube and Online Stream on our website.',
     site: '@UnityTVUganda',
   },

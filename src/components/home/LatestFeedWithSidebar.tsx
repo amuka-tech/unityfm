@@ -2,81 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Tv, Play, TrendingUp, Sparkles, Volume2, VolumeX, Maximize2, Tag, ArrowRight } from 'lucide-react';
-import { Article, BroadcastState } from '@/types';
+import { TrendingUp, Sparkles, Tag, ArrowRight } from 'lucide-react';
+import { Article } from '@/types';
 import { useDataSaver } from '@/context/DataSaverContext';
+import { NowPlayingBanner } from '@/components/radio/NowPlayingBanner';
 
-export function LatestFeedWithSidebar({
-  articles,
-  broadcastState,
-}: {
-  articles: Article[];
-  broadcastState: BroadcastState;
-}) {
-  const { getImageUrl, isDataSaver } = useDataSaver();
-  const [isPlayingMini, setIsPlayingMini] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+export function LatestFeedWithSidebar({ articles }: { articles: Article[] }) {
+  const { getImageUrl } = useDataSaver();
   const [activeTab, setActiveTab] = useState<'most_read' | 'trending'>('most_read');
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-  const mpegtsPlayerRef = React.useRef<any>(null);
-
-  const directStreamUrl = process.env.NEXT_PUBLIC_LIVE_STREAM_FLV || 'http://localhost:8000/live/live_utv_lira2026.flv';
-
-  React.useEffect(() => {
-    let player: any = null;
-
-    if (isPlayingMini && videoRef.current) {
-      import('mpegts.js').then((mpegts) => {
-        if (mpegts.default.isSupported()) {
-          try {
-            player = mpegts.default.createPlayer({
-              type: 'flv',
-              isLive: true,
-              url: directStreamUrl,
-              hasAudio: true,
-              hasVideo: true,
-            }, {
-              enableWorker: true,
-              lazyLoadMaxDuration: 3 * 60,
-              seekType: 'range',
-              liveBufferLatencyChasing: true,
-              liveBufferLatencyMaxLatency: 2.0,
-              liveBufferLatencyMinRemain: 0.5,
-            });
-
-            player.on(mpegts.default.Events.ERROR, (errorType: any, errorDetail: any, errorInfo: any) => {
-              console.warn('[Home MiniPlayer] mpegts stream warning:', errorType, errorDetail);
-            });
-            player.attachMediaElement(videoRef.current!);
-            player.load();
-            player.play().catch(() => {});
-            mpegtsPlayerRef.current = player;
-          } catch (e) {
-            console.warn('[Home MiniPlayer] mpegts init error:', e);
-          }
-        }
-      });
-    }
-
-    return () => {
-      if (mpegtsPlayerRef.current) {
-        try {
-          mpegtsPlayerRef.current.pause();
-          mpegtsPlayerRef.current.unload();
-          mpegtsPlayerRef.current.detachMediaElement();
-          mpegtsPlayerRef.current.destroy();
-        } catch (e) {}
-        mpegtsPlayerRef.current = null;
-      }
-    };
-  }, [isPlayingMini, directStreamUrl]);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
 
   const mostRead = [...articles].sort((a, b) => b.view_count - a.view_count).slice(0, 5);
 
@@ -170,65 +103,7 @@ export function LatestFeedWithSidebar({
           {/* Right Column: Sidebar (4 cols) */}
           <div className="lg:col-span-4 space-y-6">
             
-            {/* Sidebar Mini Live TV Player Widget */}
-            <div className="bg-brand-dark rounded-brand border border-neutral-800 p-4 text-white shadow-lg overflow-hidden">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-2">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600" />
-                  </span>
-                  <span className="font-heading font-black text-sm uppercase text-brand-gold">
-                    LIVE TV ON AIR
-                  </span>
-                </div>
-                <Link
-                  href="/live"
-                  className="text-[11px] text-gray-400 hover:text-white flex items-center space-x-1"
-                >
-                  <span>Go to MCR</span>
-                  <Maximize2 className="w-3 h-3" />
-                </Link>
-              </div>
-
-              <div className="aspect-video bg-black rounded relative overflow-hidden group">
-                <video
-                  ref={videoRef}
-                  className="w-full h-full object-cover"
-                  muted={isMuted}
-                  playsInline
-                />
-                
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <button
-                    onClick={() => setIsPlayingMini(!isPlayingMini)}
-                    className="w-12 h-12 bg-brand-crimson/90 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
-                  >
-                    {isPlayingMini ? (
-                      <div className="flex space-x-1">
-                        <div className="w-1 h-4 bg-white animate-pulse" />
-                        <div className="w-1 h-4 bg-white animate-pulse delay-75" />
-                      </div>
-                    ) : (
-                      <Play className="w-6 h-6 text-white ml-1" fill="currentColor" />
-                    )}
-                  </button>
-                </div>
-
-                <button
-                  onClick={() => setIsMuted(!isMuted)}
-                  className="absolute bottom-2 right-2 p-1.5 bg-black/60 rounded text-white hover:bg-black/80 transition-colors"
-                >
-                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                </button>
-              </div>
-              
-              <div className="mt-3">
-                <h3 className="font-bold text-sm text-gray-100">{(broadcastState as any)?.current_program || 'Unity News Hour'}</h3>
-                <p className="text-xs text-gray-400 mt-1 line-clamp-1">{(broadcastState as any)?.next_program ? `Up Next: ${(broadcastState as any).next_program}` : 'Stay tuned for more updates'}</p>
-              </div>
-            </div>
-
+            <NowPlayingBanner />
             {/* Most Read & Trending Tabs */}
             <div className="bg-white rounded-brand border border-gray-200 overflow-hidden shadow-sm">
               <div className="flex border-b border-gray-100">
