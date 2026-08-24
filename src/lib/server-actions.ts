@@ -1,8 +1,8 @@
 'use server';
 
 import { getDb as getBaseDb } from './db';
-import { mockArticles, mockEpgSchedule, mockBroadcastState } from './mockData';
-import { Article, BroadcastState, EpgProgram } from '@/types';
+import { mockArticles, mockScheduleSchedule, mockBroadcastState } from './mockData';
+import { Article, BroadcastState, ScheduleProgram } from '@/types';
 
 let appDbInitialized = false;
 
@@ -46,7 +46,7 @@ function getDb() {
         now_playing_presenter TEXT
       );
 
-      CREATE TABLE IF NOT EXISTS epg_schedule (
+      CREATE TABLE IF NOT EXISTS Schedule_schedule (
         id TEXT PRIMARY KEY,
         show_name TEXT,
         description TEXT,
@@ -139,16 +139,16 @@ function getDb() {
       );
     }
 
-    // Auto-seed EPG schedule
-    const epgCount = dbInstance.prepare('SELECT COUNT(*) as count FROM epg_schedule').get().count;
-    if (epgCount === 0) {
-      const insertEpg = dbInstance.prepare(`
-        INSERT INTO epg_schedule (id, show_name, description, start_time, end_time, day_of_week, presenter_name, presenter_role, category)
+    // Auto-seed Schedule schedule
+    const ScheduleCount = dbInstance.prepare('SELECT COUNT(*) as count FROM Schedule_schedule').get().count;
+    if (ScheduleCount === 0) {
+      const insertSchedule = dbInstance.prepare(`
+        INSERT INTO Schedule_schedule (id, show_name, description, start_time, end_time, day_of_week, presenter_name, presenter_role, category)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `);
-      const insertManyEpg = dbInstance.transaction((programs: EpgProgram[]) => {
+      const insertManySchedule = dbInstance.transaction((programs: ScheduleProgram[]) => {
         for (const p of programs) {
-          insertEpg.run(
+          insertSchedule.run(
             String(p.id),
             p.show_name,
             p.description,
@@ -161,7 +161,7 @@ function getDb() {
           );
         }
       });
-      insertManyEpg(mockEpgSchedule);
+      insertManySchedule(mockScheduleSchedule);
     }
 
     // Auto-seed stream keys
@@ -385,7 +385,7 @@ export async function getBroadcastStateDb(): Promise<BroadcastState> {
   if (!row) return mockBroadcastState;
 
   return {
-    channel_name: 'Unity TV Uganda',
+    channel_name: 'Radio Unity FM Uganda',
     stream_url_hls: row.stream_url_hls,
     stream_url_youtube: row.stream_url_youtube,
     is_live: row.is_live === 0 ? false : true,
@@ -453,9 +453,9 @@ export async function updateBroadcastStateDb(state: Partial<BroadcastState>): Pr
   return updated;
 }
 
-export async function getEpgScheduleDb(day?: string): Promise<EpgProgram[]> {
+export async function getScheduleScheduleDb(day?: string): Promise<ScheduleProgram[]> {
   const db = getDb();
-  let query = 'SELECT * FROM epg_schedule';
+  let query = 'SELECT * FROM Schedule_schedule';
   const args: any[] = [];
   if (day) {
     query += ' WHERE day_of_week = ?';
@@ -478,12 +478,12 @@ export async function getEpgScheduleDb(day?: string): Promise<EpgProgram[]> {
   }));
 }
 
-export async function saveEpgProgramDb(program: Partial<EpgProgram>): Promise<EpgProgram> {
+export async function saveScheduleProgramDb(program: Partial<ScheduleProgram>): Promise<ScheduleProgram> {
   const db = getDb();
-  const id = program.id ? String(program.id) : `epg-${Date.now()}`;
+  const id = program.id ? String(program.id) : `Schedule-${Date.now()}`;
   
   db.prepare(`
-    INSERT INTO epg_schedule (id, show_name, description, start_time, end_time, day_of_week, presenter_name, category, is_featured, banner_image, presenter_image)
+    INSERT INTO Schedule_schedule (id, show_name, description, start_time, end_time, day_of_week, presenter_name, category, is_featured, banner_image, presenter_image)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(id) DO UPDATE SET
       show_name      = excluded.show_name,
@@ -525,9 +525,9 @@ export async function saveEpgProgramDb(program: Partial<EpgProgram>): Promise<Ep
   };
 }
 
-export async function deleteEpgProgramDb(id: string | number): Promise<boolean> {
+export async function deleteScheduleProgramDb(id: string | number): Promise<boolean> {
   const db = getDb();
-  const info = db.prepare('DELETE FROM epg_schedule WHERE id = ?').run(String(id));
+  const info = db.prepare('DELETE FROM Schedule_schedule WHERE id = ?').run(String(id));
   return info.changes > 0;
 }
 
@@ -709,7 +709,7 @@ export async function generateStreamKeyDb(label: string = 'Master Studio Ingest 
     VALUES (?, ?, ?, 1, ?, NULL)
   `).run(id, streamKey, label, now);
 
-  const rtmpHost = process.env.NEXT_PUBLIC_RTMP_HOST || 'stream.unitytv.ug';
+  const rtmpHost = process.env.NEXT_PUBLIC_RTMP_HOST || 'stream.radiounity.ug';
 
   return {
     success: true,

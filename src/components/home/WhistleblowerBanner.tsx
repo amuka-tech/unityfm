@@ -7,7 +7,7 @@ import { ShieldAlert, Send, Lock, ArrowRight, MessageSquareCode } from 'lucide-r
 export function WhistleblowerBanner() {
   const whatsappNumber = '256772000000';
   const prefilledText = encodeURIComponent(
-    'Hello Unity TV Investigative Desk, I have confidential information / news tip regarding: '
+    'Hello Radio Unity FM Investigative Desk, I have confidential information / news tip regarding: '
   );
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${prefilledText}`;
 

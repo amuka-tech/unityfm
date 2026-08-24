@@ -4,7 +4,7 @@ import { getLiveBlogsDb } from '@/lib/server-actions';
 import { Activity, Clock, MapPin, Search } from 'lucide-react';
 
 export const metadata = {
-  title: 'Live Updates & Breaking Events - Unity TV Uganda',
+  title: 'Live Updates & Breaking Events - Radio Unity FM Uganda',
   description: 'Follow our real-time coverage of breaking news and major events across Northern Uganda.',
 };
 

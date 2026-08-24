@@ -34,8 +34,8 @@ export function RolesSettingsDesk({
     {
       role: 'broadcast_director',
       title: 'Broadcast Director (MCR)',
-      desc: 'Master of studio satellite links, RTMP ingest keys, on-air bulletin tickers, and weekly EPG program guides.',
-      permissions: ['Manage RTMP Stream Keys', 'Trigger Emergency Standby Slate', 'Update On-Air Ticker & Anchors', 'Edit 7-Day TV Guide'],
+      desc: 'Master of studio satellite links, RTMP ingest keys, on-air bulletin tickers, and weekly Schedule program guides.',
+      permissions: ['Manage RTMP Stream Keys', 'Trigger Emergency Standby Slate', 'Update On-Air Ticker & Anchors', 'Edit 7-Day '],
     },
     {
       role: 'field_reporter',
@@ -125,7 +125,7 @@ export function RolesSettingsDesk({
           <div className="p-4 bg-white border border-gray-200 rounded-lg space-y-1">
             <span className="text-xs text-gray-500 font-medium block">Database Engine</span>
             <span className="text-sm font-medium text-gray-900 block">SQLite WAL Mode</span>
-            <span className="text-xs text-gray-500 font-mono">unitytv.sqlite • Connected</span>
+            <span className="text-xs text-gray-500 font-mono">radiounity.sqlite • Connected</span>
           </div>
 
           <div className="p-4 bg-white border border-gray-200 rounded-lg space-y-1">

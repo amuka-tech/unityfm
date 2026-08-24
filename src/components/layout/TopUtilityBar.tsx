@@ -101,7 +101,7 @@ export function TopUtilityBar() {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-emerald-400 transition-colors"
-              title="Unity TV WhatsApp Channel"
+              title="Radio Unity FM WhatsApp Channel"
             >
               WhatsApp
             </a>
@@ -111,7 +111,7 @@ export function TopUtilityBar() {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-red-400 transition-colors"
-              title="Unity TV YouTube"
+              title="Radio Unity FM YouTube"
             >
               YouTube
             </a>

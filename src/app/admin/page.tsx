@@ -67,7 +67,7 @@ export default function AdminPage() {
             <Tv className="w-7 h-7 text-gray-900" />
           </div>
           <h1 className="font-heading font-semibold tracking-tight text-2xl text-gray-900 tracking-wide">
-            UNITY TV UGANDA
+            Radio Unity FM UGANDA
           </h1>
           <p className="text-xs text-gray-600">
             Broadcasting Across Northern Uganda &bull; Staff Editorial & MCR Terminal
@@ -87,7 +87,7 @@ export default function AdminPage() {
               type="email"
               value={loginEmail}
               onChange={(e) => setLoginEmail(e.target.value)}
-              placeholder="admin@unitytv.ug"
+              placeholder="admin@radiounity.ug"
               className="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 text-gray-900 focus:outline-none focus:border-brand-crimson text-sm"
               required
             />
@@ -122,7 +122,7 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 gap-2 text-xs">
             <button
               type="button"
-              onClick={() => handleQuickSelect('admin@unitytv.ug')}
+              onClick={() => handleQuickSelect('admin@radiounity.ug')}
               className="p-2 rounded-xl bg-gray-50 hover:bg-[#F8F9FA] text-left border border-gray-200 hover:border-brand-crimson transition-colors"
             >
               <span className="font-bold text-gray-900 block text-[11px]">Managing Director</span>
@@ -130,7 +130,7 @@ export default function AdminPage() {
             </button>
             <button
               type="button"
-              onClick={() => handleQuickSelect('producer@unitytv.ug')}
+              onClick={() => handleQuickSelect('producer@radiounity.ug')}
               className="p-2 rounded-xl bg-gray-50 hover:bg-[#F8F9FA] text-left border border-gray-200 hover:border-brand-crimson transition-colors"
             >
               <span className="font-bold text-gray-900 block text-[11px]">Broadcast Director</span>
@@ -138,7 +138,7 @@ export default function AdminPage() {
             </button>
             <button
               type="button"
-              onClick={() => handleQuickSelect('editor@unitytv.ug')}
+              onClick={() => handleQuickSelect('editor@radiounity.ug')}
               className="p-2 rounded-xl bg-gray-50 hover:bg-[#F8F9FA] text-left border border-gray-200 hover:border-brand-crimson transition-colors"
             >
               <span className="font-bold text-gray-900 block text-[11px]">News Editor</span>
@@ -146,7 +146,7 @@ export default function AdminPage() {
             </button>
             <button
               type="button"
-              onClick={() => handleQuickSelect('reporter@unitytv.ug')}
+              onClick={() => handleQuickSelect('reporter@radiounity.ug')}
               className="p-2 rounded-xl bg-gray-50 hover:bg-[#F8F9FA] text-left border border-gray-200 hover:border-brand-crimson transition-colors"
             >
               <span className="font-bold text-gray-900 block text-[11px]">Field Reporter</span>

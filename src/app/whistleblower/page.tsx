@@ -53,7 +53,7 @@ export default function WhistleblowerPage() {
   };
 
   const whatsappDirect = 'https://wa.me/256772000000?text=' + encodeURIComponent(
-    'Hello Unity TV Investigative Desk, I have a confidential news tip/whistleblower story from Northern Uganda.'
+    'Hello Radio Unity FM Investigative Desk, I have a confidential news tip/whistleblower story from Northern Uganda.'
   );
 
   return (
@@ -70,11 +70,11 @@ export default function WhistleblowerPage() {
           </div>
 
           <h1 className="font-heading font-black text-2xl sm:text-3xl text-white">
-            Unity TV Whistleblower & Investigative Tip Line
+            Radio Unity FM Whistleblower & Investigative Tip Line
           </h1>
 
           <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-            Unity TV is committed to uncovering the truth and holding power accountable across Lira City and Northern Uganda. You may submit information anonymously or provide contact details for our investigative journalists to follow up.
+            Radio Unity FM is committed to uncovering the truth and holding power accountable across Lira City and Northern Uganda. You may submit information anonymously or provide contact details for our investigative journalists to follow up.
           </p>
 
           <div className="pt-2 flex items-center space-x-2 text-xs text-amber-400 font-semibold">
@@ -94,7 +94,7 @@ export default function WhistleblowerPage() {
             </h2>
 
             <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-              Your information has been routed securely to the senior investigative editors at Unity TV in Lira City.
+              Your information has been routed securely to the senior investigative editors at Radio Unity FM in Lira City.
             </p>
 
             <div className="inline-block bg-gray-100 border border-gray-300 rounded p-3 text-xs font-mono font-bold text-gray-800">

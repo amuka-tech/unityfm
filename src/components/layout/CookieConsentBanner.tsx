@@ -76,7 +76,7 @@ export function CookieConsentBanner() {
 
         {/* Description */}
         <p className="text-xs text-gray-300 leading-relaxed mb-4">
-          Unity TV Uganda uses strictly essential cookies to maintain secure sessions and optimize 3G data-saver delivery. We request your permission for optional analytics and regional advertising cookies.
+          Radio Unity FM Uganda uses strictly essential cookies to maintain secure sessions and optimize 3G data-saver delivery. We request your permission for optional analytics and regional advertising cookies.
         </p>
 
         {/* Detailed Preferences Panel */}

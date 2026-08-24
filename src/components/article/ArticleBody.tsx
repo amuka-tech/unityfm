@@ -357,7 +357,7 @@ export function ArticleBody({ article, relatedArticles }: ArticleBodyProps) {
                 Do you have additional information about this story?
               </h4>
               <p className="text-xs text-gray-300 mt-1">
-                Send confidential documents or photos directly to the Unity TV investigative desk in Lira City.
+                Send confidential documents or photos directly to the Radio Unity FM investigative desk in Lira City.
               </p>
             </div>
             <a
@@ -386,10 +386,10 @@ export function ArticleBody({ article, relatedArticles }: ArticleBodyProps) {
                   <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
                   <span>Live on Air</span>
                 </span>
-                <span className="text-[10px] text-gray-400 font-mono">Unity TV MCR</span>
+                <span className="text-[10px] text-gray-400 font-mono">Radio Unity FM MCR</span>
               </div>
               <h3 className="font-heading font-black text-base text-white leading-tight mb-2">
-                Watch Unity TV Live Stream
+                Watch Radio Unity FM Live Stream
               </h3>
               <p className="text-xs text-gray-400 mb-4 line-clamp-2">
                 Live broadcast from Lira City covering news, Odiko Alyet talk shows, and Luo cultural features.

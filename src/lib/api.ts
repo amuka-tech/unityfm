@@ -1,4 +1,4 @@
-import { Article, Category, BroadcastState, EpgProgram, LiveBlogData, LiveBlogUpdateItem, WeatherData, CurrencyRate, WhistleblowerSubmission } from '@/types';
+import { Article, Category, BroadcastState, ScheduleProgram, LiveBlogData, LiveBlogUpdateItem, WeatherData, CurrencyRate, WhistleblowerSubmission } from '@/types';
 import { mockCategories, mockLiveBlog, mockWeatherData, mockCurrencyRates } from './mockData';
 import {
   getArticlesDb,
@@ -7,9 +7,9 @@ import {
   deleteArticleDb,
   getBroadcastStateDb,
   updateBroadcastStateDb,
-  getEpgScheduleDb,
-  saveEpgProgramDb,
-  deleteEpgProgramDb,
+  getScheduleScheduleDb,
+  saveScheduleProgramDb,
+  deleteScheduleProgramDb,
   createTipDb,
   getTipsDb,
   generateStreamKeyDb,
@@ -74,7 +74,7 @@ export const api = {
       return await getBroadcastStateDb();
     } catch (err) {
       return {
-        channel_name: 'Unity TV Uganda',
+        channel_name: 'Radio Unity FM Uganda',
         stream_url_hls: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
         stream_url_youtube: 'https://www.youtube.com/embed/jfKfPfyJRdk',
         is_live: true,
@@ -100,25 +100,25 @@ export const api = {
     return await updateBroadcastStateDb(updates);
   },
 
-  // EPG Schedules
-  async getEpgSchedule(day?: string): Promise<EpgProgram[]> {
+  // Schedule Schedules
+  async getScheduleSchedule(day?: string): Promise<ScheduleProgram[]> {
     try {
-      return await getEpgScheduleDb(day);
+      return await getScheduleScheduleDb(day);
     } catch (err) {
       return [];
     }
   },
 
-  async saveEpgProgram(program: Partial<EpgProgram>): Promise<EpgProgram> {
-    return await saveEpgProgramDb(program);
+  async saveScheduleProgram(program: Partial<ScheduleProgram>): Promise<ScheduleProgram> {
+    return await saveScheduleProgramDb(program);
   },
 
-  async deleteEpgProgram(id: string | number): Promise<boolean> {
-    return await deleteEpgProgramDb(id);
+  async deleteScheduleProgram(id: string | number): Promise<boolean> {
+    return await deleteScheduleProgramDb(id);
   },
 
-  async addEpgProgram(program: Omit<EpgProgram, 'id'>): Promise<EpgProgram> {
-    return await saveEpgProgramDb(program);
+  async addScheduleProgram(program: Omit<ScheduleProgram, 'id'>): Promise<ScheduleProgram> {
+    return await saveScheduleProgramDb(program);
   },
 
   // Live Blog

@@ -15,7 +15,7 @@ export function Footer() {
               <Radio className="w-5 h-5 text-brand-gold animate-pulse" />
             </div>
             <div>
-              <h4 className="text-white font-bold text-base">Unity TV Uganda — Broadcasting Across Northern Uganda</h4>
+              <h4 className="text-white font-bold text-base">Radio Unity FM Uganda — Broadcasting Across Northern Uganda</h4>
               <p className="text-xs text-brand-gold font-medium">Available on <a href="https://www.youtube.com/@977unityfm" target="_blank" rel="noopener noreferrer" className="hover:underline text-white transition-colors">YouTube</a> and Online Stream on our website.</p>
             </div>
           </div>
@@ -52,7 +52,7 @@ export function Footer() {
               />
             </div>
             <p className="text-xs text-gray-400 leading-relaxed pr-6">
-              Unity TV is a digital-first regional broadcaster and news publication based in Lira City, dedicated to authoritative journalism, agricultural development, Luo cultural preservation, and public accountability across Northern Uganda and nationwide.
+              Radio Unity FM is a digital-first regional broadcaster and news publication based in Lira City, dedicated to authoritative journalism, agricultural development, Luo cultural preservation, and public accountability across Northern Uganda and nationwide.
             </p>
 
             <div className="space-y-2 text-xs text-gray-300">
@@ -66,7 +66,7 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="w-3.5 h-3.5 text-brand-gold flex-shrink-0" />
-                <span>editorial@unitytv.ug | sales@unitytv.ug</span>
+                <span>editorial@radiounity.ug | sales@radiounity.ug</span>
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@ export function Footer() {
               <li><Link href="/business" className="hover:text-brand-gold transition-colors">• Agribusiness & Commodity Rates</Link></li>
               <li><Link href="/sports" className="hover:text-brand-gold transition-colors">• FUFA Drum & Sports</Link></li>
               <li><Link href="/lifestyle" className="hover:text-brand-gold transition-colors">• Luo Culture & Tekwaro</Link></li>
-              <li><Link href="/shows" className="hover:text-brand-gold transition-colors">• TV Schedule (EPG)</Link></li>
+              <li><Link href="/shows" className="hover:text-brand-gold transition-colors">• TV Schedule (Schedule)</Link></li>
               <li><Link href="/videos" className="hover:text-brand-gold transition-colors">• Investigative Bulletins</Link></li>
             </ul>
           </div>
@@ -133,7 +133,7 @@ export function Footer() {
             </span>
           </div>
           <div suppressHydrationWarning>
-            © {new Date().getFullYear()} Unity TV Uganda Ltd. All Rights Reserved.
+            © {new Date().getFullYear()} Radio Unity FM Uganda Ltd. All Rights Reserved.
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ export function ShareButtons({ title, slug, category }: ShareButtonsProps) {
 
   const articleUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/news/${category}/${slug}`
-    : `https://unitytv.ug/news/${category}/${slug}`;
+    : `https://radiounity.ug/news/${category}/${slug}`;
 
   const encodedTitle = encodeURIComponent(title);
   const encodedUrl = encodeURIComponent(articleUrl);
@@ -24,7 +24,7 @@ export function ShareButtons({ title, slug, category }: ShareButtonsProps) {
   const xShareUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
   const linkedinShareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`;
   const telegramShareUrl = `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`;
-  const emailShareUrl = `mailto:?subject=${encodedTitle}&body=Read this story on Unity TV: ${articleUrl}`;
+  const emailShareUrl = `mailto:?subject=${encodedTitle}&body=Read this story on Radio Unity FM: ${articleUrl}`;
 
   const handleCopy = () => {
     if (typeof navigator !== 'undefined') {

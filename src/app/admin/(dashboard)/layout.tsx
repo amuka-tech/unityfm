@@ -133,7 +133,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (pathname.includes('live-blog')) return 'Live Blog & Real-Time Reporting';
     if (pathname.includes('newsroom')) return 'Newsroom & Editorial Publishing';
     if (pathname.includes('streams')) return 'Broadcast Master Control Room (MCR)';
-    if (pathname.includes('epg')) return '7-Day Weekly TV Guide Planner';
+    if (pathname.includes('Schedule')) return '7-Day Weekly  Planner';
     if (pathname.includes('whistleblower')) return 'Whistleblower & Investigative Desk';
     if (pathname.includes('settings')) return 'Roles, Access Control & System Diagnostics';
     return 'Admin Dashboard';

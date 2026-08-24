@@ -16,11 +16,11 @@ export async function generateMetadata({ params }: LiveBlogPageProps) {
   const liveBlog = blogs.find((b: any) => b.id.toString() === id);
 
   if (!liveBlog) {
-    return { title: 'Live Blog - Unity TV Uganda' };
+    return { title: 'Live Blog - Radio Unity FM Uganda' };
   }
 
   return {
-    title: `LIVE: ${liveBlog.title} - Unity TV Uganda`,
+    title: `LIVE: ${liveBlog.title} - Radio Unity FM Uganda`,
     description: liveBlog.summary,
   };
 }

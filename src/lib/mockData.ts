@@ -1,4 +1,4 @@
-import { Article, Category, BroadcastState, EpgProgram, LiveBlogData, WeatherData, CurrencyRate } from '@/types';
+import { Article, Category, BroadcastState, ScheduleProgram, LiveBlogData, WeatherData, CurrencyRate } from '@/types';
 
 export const mockCategories: Category[] = [
   {
@@ -71,7 +71,7 @@ export const mockCategories: Category[] = [
     name: 'Videos',
     slug: 'videos',
     color: '#EF4444',
-    description: 'Unity TV bulletins, investigative documentaries, and prime-time talk show archives.',
+    description: 'Radio Unity FM bulletins, investigative documentaries, and prime-time talk show archives.',
   }
 ];
 
@@ -99,7 +99,7 @@ export const mockArticles: Article[] = [
     `,
     featured_image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&h=700&fit=crop',
     image_caption: 'Vehicles traverse the newly asphalted dual corridor near Agwata trading center in Dokolo district.',
-    image_credit: 'Unity TV / Patrick Okot',
+    image_credit: 'Radio Unity FM / Patrick Okot',
     location_tag: 'Lira City & Dokolo',
     category: { id: 1, name: 'Lira City', slug: 'lira-city', color: '#FFC20E' },
     subcategory: { id: 103, name: 'Infrastructure & Roads', slug: 'lira-infrastructure' },
@@ -145,7 +145,7 @@ export const mockArticles: Article[] = [
     `,
     featured_image: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=1200&h=700&fit=crop',
     image_caption: 'Members of the Otuke Women Shea Alliance inspect cold-pressed organic butter batches.',
-    image_credit: 'Unity TV / Okello Moses',
+    image_credit: 'Radio Unity FM / Okello Moses',
     location_tag: 'Otuke District',
     category: { id: 5, name: 'Business & Agriculture', slug: 'business', color: '#10B981' },
     author: {
@@ -181,11 +181,11 @@ export const mockArticles: Article[] = [
       
       <p>Star striker Denis Omedi opened the scoresheet in the 24th minute with a clinical header off an Allan Okello corner delivery. Buganda fought back with a penalty early in the second half, before local hero Dickens Okwir curled an 89th-minute freekick into the top right corner.</p>
       
-      <p>Unity TV’s live broadcast cameras captured jubilant scenes across the stadium terraces and in downtown Lira streets, with motorcycle riders and youth chanting traditional Luo victory anthems long into the evening.</p>
+      <p>Radio Unity FM’s live broadcast cameras captured jubilant scenes across the stadium terraces and in downtown Lira streets, with motorcycle riders and youth chanting traditional Luo victory anthems long into the evening.</p>
     `,
     featured_image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1200&h=700&fit=crop',
     image_caption: 'Lango Province players celebrate the decisive 89th-minute match-winner at Akii-Bua Stadium.',
-    image_credit: 'Unity TV Sports / Dennis Ogwang',
+    image_credit: 'Radio Unity FM Sports / Dennis Ogwang',
     location_tag: 'Lira City',
     category: { id: 6, name: 'Sports', slug: 'sports', color: '#F59E0B' },
     author: {
@@ -227,7 +227,7 @@ export const mockArticles: Article[] = [
     `,
     featured_image: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=1200&h=700&fit=crop',
     image_caption: 'Solar panels installed on the roof of Lira Main Market cold storage facility.',
-    image_credit: 'Unity TV / Sarah Awor',
+    image_credit: 'Radio Unity FM / Sarah Awor',
     location_tag: 'Lira City',
     category: { id: 1, name: 'Lira City', slug: 'lira-city', color: '#FFC20E' },
     author: {
@@ -260,7 +260,7 @@ export const mockArticles: Article[] = [
     `,
     featured_image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1200&h=700&fit=crop',
     image_caption: 'Traditional Luo drummers rehearse ahead of the regional Tekwaro Lango summit.',
-    image_credit: 'Unity TV Culture / Walter Odongo',
+    image_credit: 'Radio Unity FM Culture / Walter Odongo',
     location_tag: 'Lango Sub-Region',
     category: { id: 7, name: 'Lifestyle & Culture', slug: 'lifestyle', color: '#8B5CF6' },
     author: {
@@ -293,7 +293,7 @@ export const mockArticles: Article[] = [
     `,
     featured_image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1200&h=700&fit=crop',
     image_caption: 'Soya bean collection center in Kole district where grain is tested for moisture standards.',
-    image_credit: 'Unity TV / Okello Moses',
+    image_credit: 'Radio Unity FM / Okello Moses',
     location_tag: 'Kole District',
     category: { id: 5, name: 'Business & Agriculture', slug: 'business', color: '#10B981' },
     author: {
@@ -326,7 +326,7 @@ export const mockArticles: Article[] = [
     `,
     featured_image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&h=700&fit=crop',
     image_caption: 'Engineers inspect the newly completed maternity and emergency wing at Apac Hospital.',
-    image_credit: 'Unity TV / Sarah Awor',
+    image_credit: 'Radio Unity FM / Sarah Awor',
     location_tag: 'Apac District',
     category: { id: 2, name: 'Lango Sub-Region', slug: 'lango-sub-region', color: '#8B0000' },
     author: {
@@ -348,20 +348,20 @@ export const mockArticles: Article[] = [
   },
   {
     id: 108,
-    title: 'Unity TV Special Investigation: Cross-Border Soya Smuggling Rings Uncovered in Lake Kyoga Maritime Transit',
+    title: 'Radio Unity FM Special Investigation: Cross-Border Soya Smuggling Rings Uncovered in Lake Kyoga Maritime Transit',
     slug: 'special-investigation-cross-border-soya-smuggling-lake-kyoga',
     sub_headline: 'A two-month undercover investigation reveals unmonitored canoe routes draining tens of millions in district revenue.',
-    excerpt: 'An undercover Unity TV investigative crew traced midnight wooden canoe convoys transporting untaxed grain across Lake Kyoga docking points into Nakasongola and Kayunga.',
+    excerpt: 'An undercover Radio Unity FM investigative crew traced midnight wooden canoe convoys transporting untaxed grain across Lake Kyoga docking points into Nakasongola and Kayunga.',
     content: `
       <p><strong>AMOLATAR & NAMAASALE</strong> — Under the cover of pitch darkness at 2:00 AM, heavily loaded wooden boats slip quietly away from secluded reed inlets along the northern shores of Lake Kyoga in Amolatar district.</p>
       
-      <p>Over the past eight weeks, Unity TV’s Investigative Desk embedded reporters along informal landing bays in Namaasale, documenting an illicit grain pipeline that bypasses district cess revenue checkpoints.</p>
+      <p>Over the past eight weeks, Radio Unity FM’s Investigative Desk embedded reporters along informal landing bays in Namaasale, documenting an illicit grain pipeline that bypasses district cess revenue checkpoints.</p>
       
       <p>District officials estimate that Amolatar loses upwards of UGX 450 Million annually in uncollected produce taxes, starving local health centers and primary schools of critical public service funds.</p>
     `,
     featured_image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=700&fit=crop',
     image_caption: 'Night-time landing jetty along Lake Kyoga where unmonitored cargo transit was documented.',
-    image_credit: 'Unity TV Investigations',
+    image_credit: 'Radio Unity FM Investigations',
     location_tag: 'Amolatar District',
     category: { id: 8, name: 'Videos', slug: 'videos', color: '#EF4444' },
     author: {
@@ -386,7 +386,7 @@ export const mockArticles: Article[] = [
 ];
 
 export const mockBroadcastState: BroadcastState = {
-  channel_name: 'Unity TV Uganda — Live from Lira City',
+  channel_name: 'Radio Unity FM Uganda — Live from Lira City',
   stream_url_hls: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
   stream_url_youtube: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // fallback embed
   is_live: true,
@@ -407,7 +407,7 @@ export const mockBroadcastState: BroadcastState = {
   }
 };
 
-export const mockEpgSchedule: EpgProgram[] = [
+export const mockScheduleSchedule: ScheduleProgram[] = [
   {
     id: 1,
     show_name: 'Lango Breakfast Express',
@@ -473,7 +473,7 @@ export const mockEpgSchedule: EpgProgram[] = [
     start_time: '20:00',
     end_time: '21:00',
     category: 'News',
-    description: 'The definitive evening television news bulletin for Northern Uganda and Kampala, bringing high-impact investigative reporting, field crosses, and political analysis.',
+    description: 'The definitive evening Radio news bulletin for Northern Uganda and Kampala, bringing high-impact investigative reporting, field crosses, and political analysis.',
     banner_image: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=600',
     is_featured: true,
     is_live_broadcast: true,

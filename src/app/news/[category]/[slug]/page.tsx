@@ -21,12 +21,12 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
   if (!article) {
     return {
-      title: 'Article Not Found — Unity TV Uganda',
+      title: 'Article Not Found — Radio Unity FM Uganda',
     };
   }
 
   return {
-    title: `${article.title} — Unity TV Uganda`,
+    title: `${article.title} — Radio Unity FM Uganda`,
     description: article.excerpt,
     openGraph: {
       title: article.title,

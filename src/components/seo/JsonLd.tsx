@@ -7,7 +7,7 @@ export function NewsArticleJsonLd({ article }: { article: Article }) {
     '@type': 'NewsArticle',
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://unitytv.ug/news/${article.category.slug}/${article.slug}`,
+      '@id': `https://radiounity.ug/news/${article.category.slug}/${article.slug}`,
     },
     headline: article.title,
     description: article.excerpt,
@@ -21,11 +21,11 @@ export function NewsArticleJsonLd({ article }: { article: Article }) {
     },
     publisher: {
       '@type': 'NewsMediaOrganization',
-      name: 'Unity TV Uganda',
-      url: 'https://unitytv.ug',
+      name: 'Radio Unity FM Uganda',
+      url: 'https://radiounity.ug',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://unitytv.ug/logo.png',
+        url: 'https://radiounity.ug/logo.png',
       },
     },
     articleSection: article.category.name,
@@ -47,14 +47,14 @@ export function BroadcastJsonLd({ broadcast }: { broadcast: BroadcastState }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BroadcastService',
-    name: 'Unity TV Uganda Live Broadcast',
-    broadcastDisplayName: 'Unity TV Lira',
+    name: 'Radio Unity FM Uganda Live Broadcast',
+    broadcastDisplayName: 'Radio Unity FM Lira',
     videoFormat: 'HD',
     broadcastTimezone: 'Africa/Kampala',
     broadcaster: {
       '@type': 'Organization',
-      name: 'Unity TV Uganda',
-      url: 'https://unitytv.ug',
+      name: 'Radio Unity FM Uganda',
+      url: 'https://radiounity.ug',
     },
     areaServed: {
       '@type': 'AdministrativeArea',
@@ -74,9 +74,9 @@ export function OrganizationJsonLd() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'NewsMediaOrganization',
-    name: 'Unity TV Uganda',
-    url: 'https://unitytv.ug',
-    logo: 'https://unitytv.ug/logo.png',
+    name: 'Radio Unity FM Uganda',
+    url: 'https://radiounity.ug',
+    logo: 'https://radiounity.ug/logo.png',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Plot 18, Obote Avenue',
