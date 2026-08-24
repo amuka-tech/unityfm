@@ -23,7 +23,7 @@ export function formatTime(time24: string) {
   return `${h12 < 10 ? '0' : ''}${h12}:${m < 10 ? '0' : ''}${m} ${ampm}`;
 }
 
-export function getCurrentShow() {
+export function getCurrentShow(scheduleList: any[] = WEEKDAY_SCHEDULE) {
   // Uganda is UTC+3. Let's get the current time in UTC, then add 3 hours.
   const now = new Date();
   const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -44,9 +44,16 @@ export function getCurrentShow() {
   const currentMinute = eat.getMinutes();
   const currentTotalMins = currentHour * 60 + currentMinute;
 
-  for (const slot of WEEKDAY_SCHEDULE) {
-    const [startH, startM] = slot.start.split(':').map(Number);
-    const [endH, endM] = slot.end.split(':').map(Number);
+  for (const slot of scheduleList) {
+    const start = slot.start_time || slot.start;
+    const end = slot.end_time || slot.end;
+    const showName = slot.show_name || slot.show;
+    const hostName = slot.presenter_name || slot.host;
+
+    if (!start || !end) continue;
+
+    const [startH, startM] = start.split(':').map(Number);
+    const [endH, endM] = end.split(':').map(Number);
     
     let startTotal = startH * 60 + startM;
     let endTotal = endH * 60 + endM;
@@ -56,14 +63,18 @@ export function getCurrentShow() {
       if (currentTotalMins >= startTotal || currentTotalMins < endTotal) {
         return {
           ...slot,
-          timeString: `${formatTime(slot.start)} - ${formatTime(slot.end)}`
+          show: showName,
+          host: hostName,
+          timeString: `${formatTime(start)} - ${formatTime(end)}`
         };
       }
     } else {
       if (currentTotalMins >= startTotal && currentTotalMins < endTotal) {
         return {
           ...slot,
-          timeString: `${formatTime(slot.start)} - ${formatTime(slot.end)}`
+          show: showName,
+          host: hostName,
+          timeString: `${formatTime(start)} - ${formatTime(end)}`
         };
       }
     }

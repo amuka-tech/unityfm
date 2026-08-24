@@ -114,8 +114,7 @@ export interface BroadcastState {
   };
 }
 
-export interface EpgProgram {
-  id: number;
+export interface ScheduleProgram {\n  id: string | number;
   show_name: string;
   presenter_name: string;
   presenter_role?: string;
