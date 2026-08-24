@@ -19,15 +19,34 @@ export function ListenLivePlayer() {
 
   return (
     <div className="w-full h-[500px] flex flex-col items-center justify-center bg-brand-dark text-white p-8 relative overflow-hidden">
-      {/* Background visualizer effect */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-gold rounded-full blur-[120px] transition-opacity duration-1000 ${isPlaying ? 'animate-pulse opacity-20' : 'opacity-5'}`}></div>
-        <div className={`absolute bottom-0 right-0 w-[300px] h-[300px] bg-brand-crimson rounded-full blur-[100px] transition-opacity duration-1000 ${isPlaying ? 'opacity-20' : 'opacity-5'}`}></div>
+      {/* Background visualizer waves */}
+      <style>{`
+        @keyframes wave {
+          0% { height: 10%; opacity: 0.3; }
+          50% { height: 90%; opacity: 0.8; }
+          100% { height: 10%; opacity: 0.3; }
+        }
+        .wave-bar {
+          animation: wave 1s ease-in-out infinite;
+          transform-origin: bottom;
+        }
+      `}</style>
+      <div className="absolute bottom-0 left-0 w-full h-[60%] flex items-end justify-between px-2 gap-1 sm:gap-2 opacity-40 pointer-events-none z-0">
+        {[...Array(30)].map((_, i) => (
+          <div 
+            key={i} 
+            className={`w-full max-w-[20px] bg-gradient-to-t from-brand-crimson to-brand-gold rounded-t-full transition-all duration-500 ${isPlaying ? 'wave-bar' : 'h-[5%]'}`}
+            style={isPlaying ? { 
+              animationDelay: `${Math.random() * 1.2}s`,
+              animationDuration: `${0.6 + Math.random() * 0.8}s`
+            } : {}}
+          />
+        ))}
       </div>
       
       <div className="relative z-10 text-center mb-12">
         <div className={`w-32 h-32 mx-auto bg-neutral-900 rounded-full flex items-center justify-center mb-6 shadow-2xl border-4 transition-all duration-500 ${isPlaying ? 'border-brand-gold shadow-[0_0_30px_rgba(255,194,14,0.4)]' : 'border-neutral-800'}`}>
-          <Radio className={`w-16 h-16 transition-colors duration-500 ${isPlaying ? 'text-brand-gold animate-pulse' : 'text-neutral-500'}`} />
+          <Radio className={`w-16 h-16 transition-colors duration-500 ${isPlaying ? 'text-brand-gold' : 'text-neutral-500'}`} />
         </div>
         <h2 className="text-3xl font-black mb-2 tracking-tight">Radio Unity FM</h2>
         <p className="text-brand-gold font-medium mb-1">97.7 FM</p>
