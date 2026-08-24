@@ -3,8 +3,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { Tv, Phone, Mail, MapPin, ShieldCheck, Heart, Radio, Youtube, Facebook, Send } from 'lucide-react';
+import { useRadio } from '@/context/RadioContext';
 
 export function Footer() {
+  const { isPlaying, togglePlay, showPlayer } = useRadio();
   return (
     <footer className="bg-brand-dark text-gray-400 text-sm border-t-4 border-brand-gold">
       {/* Top Banner inside Footer */}
@@ -21,13 +23,16 @@ export function Footer() {
           </div>
 
           <div className="flex items-center space-x-3">
-            <Link
-              href="/live"
-              className="px-4 py-2 bg-brand-gold hover:bg-brand-gold-light text-brand-dark font-bold text-xs rounded-brand shadow transition-colors flex items-center space-x-1.5"
+            <button
+              onClick={() => {
+                if (!isPlaying) togglePlay();
+                showPlayer();
+              }}
+              className="px-4 py-2 bg-brand-crimson hover:bg-red-700 text-white font-bold text-xs rounded-brand shadow transition-colors flex items-center space-x-1.5"
             >
-              <Tv className="w-3.5 h-3.5" />
-              <span>Watch Live Stream</span>
-            </Link>
+              <Radio className={`w-3.5 h-3.5 ${isPlaying ? 'animate-pulse' : ''}`} />
+              <span>{isPlaying ? 'Playing Live' : 'Listen Live'}</span>
+            </button>
             <Link
               href="/whistleblower"
               className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium text-xs rounded-brand border border-neutral-700 transition-colors"
