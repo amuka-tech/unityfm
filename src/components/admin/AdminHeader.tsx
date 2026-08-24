@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, Plus, Flame, Bell, Settings, Sun, Moon, X, ShieldAlert, FileText, ChevronRight } from 'lucide-react';
+import { Menu, Plus, Flame, Bell, Settings, Sun, Moon, X, ShieldAlert, FileText, ChevronRight, Calendar } from 'lucide-react';
 import { Role } from '@/types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -261,6 +261,15 @@ export function AdminHeader({
             )}
           </div>
         </div>
+
+        {/* Program Guide Action */}
+        <button
+          onClick={() => router.push('/admin/epg')}
+          className="hidden lg:flex items-center space-x-1 px-3 sm:px-4 py-2 rounded-lg bg-gray-900 hover:bg-black text-white text-xs font-bold shadow-sm transition-all"
+        >
+          <Calendar className="w-4 h-4" />
+          <span>Program Guide</span>
+        </button>
 
         {/* New Article Action */}
         <button
