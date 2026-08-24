@@ -46,8 +46,8 @@ export function Footer() {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center space-x-2">
               <img 
-                src="/unity-tv-logo.png" 
-                alt="Unity TV Logo" 
+                src="/radio-unity-logo.png" 
+                alt="Radio Unity FM Logo" 
                 className="h-8 w-auto object-contain brightness-0 invert opacity-90"
               />
             </div>

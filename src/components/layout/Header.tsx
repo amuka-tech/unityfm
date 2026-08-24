@@ -93,8 +93,8 @@ export function Header() {
           <div className="flex items-center space-x-3">
             <Link href="/" className="group flex items-center space-x-2.5">
               <img 
-                src="/unity-tv-logo.png" 
-                alt="Unity TV Logo" 
+                src="/radio-unity-logo.png" 
+                alt="Radio Unity FM Logo" 
                 className="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
               />
             </Link>
