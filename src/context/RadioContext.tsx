@@ -47,7 +47,7 @@ export function RadioProvider({ children }: { children: React.ReactNode }) {
     };
 
     const handleError = (e: any) => {
-      console.error('Audio stream error:', e);
+      console.warn('Radio stream is currently unavailable (Offline or blocked by CORS)');
       setIsPlaying(false);
       setIsLoading(false);
       setError(true);
@@ -86,7 +86,7 @@ export function RadioProvider({ children }: { children: React.ReactNode }) {
       setError(false);
       audio.src = STREAM_URL;
       audio.play().catch((e) => {
-        console.error('Playback failed', e);
+        console.warn('Playback failed (Stream Offline or blocked)', e);
         setError(true);
         setIsLoading(false);
       });
