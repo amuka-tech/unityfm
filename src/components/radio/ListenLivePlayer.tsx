@@ -18,21 +18,23 @@ export function ListenLivePlayer() {
   } = useRadio();
 
   return (
-    <div className="w-full h-[500px] flex flex-col items-center justify-center bg-gray-900 text-white p-8 relative">
+    <div className="w-full h-[500px] flex flex-col items-center justify-center bg-brand-dark text-white p-8 relative overflow-hidden">
       {/* Background visualizer effect */}
-      <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-crimson rounded-full blur-[100px] transition-opacity duration-1000 ${isPlaying ? 'animate-pulse opacity-100' : 'opacity-20'}`}></div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-gold rounded-full blur-[120px] transition-opacity duration-1000 ${isPlaying ? 'animate-pulse opacity-20' : 'opacity-5'}`}></div>
+        <div className={`absolute bottom-0 right-0 w-[300px] h-[300px] bg-brand-crimson rounded-full blur-[100px] transition-opacity duration-1000 ${isPlaying ? 'opacity-20' : 'opacity-5'}`}></div>
       </div>
       
       <div className="relative z-10 text-center mb-12">
-        <div className={`w-32 h-32 mx-auto bg-gray-800 rounded-full flex items-center justify-center mb-6 shadow-2xl border-4 transition-colors duration-500 ${isPlaying ? 'border-brand-crimson' : 'border-gray-700'}`}>
-          <Radio className={`w-16 h-16 ${isPlaying ? 'text-brand-crimson' : 'text-gray-500'}`} />
+        <div className={`w-32 h-32 mx-auto bg-neutral-900 rounded-full flex items-center justify-center mb-6 shadow-2xl border-4 transition-all duration-500 ${isPlaying ? 'border-brand-gold shadow-[0_0_30px_rgba(255,194,14,0.4)]' : 'border-neutral-800'}`}>
+          <Radio className={`w-16 h-16 transition-colors duration-500 ${isPlaying ? 'text-brand-gold animate-pulse' : 'text-neutral-500'}`} />
         </div>
-        <h2 className="text-3xl font-black mb-2">Radio Unity FM</h2>
-        <p className="text-gray-400">97.7 FM • {error ? 'Stream Error' : isPlaying ? 'Live Broadcast' : 'Ready to Play'}</p>
+        <h2 className="text-3xl font-black mb-2 tracking-tight">Radio Unity FM</h2>
+        <p className="text-brand-gold font-medium mb-1">97.7 FM</p>
+        <p className="text-gray-400 text-sm tracking-widest uppercase">{error ? 'Stream Error' : isPlaying ? 'Live Broadcast' : 'Ready to Play'}</p>
       </div>
 
-      <div className="relative z-10 w-full max-w-md bg-gray-800 rounded-2xl p-6 shadow-xl border border-gray-700 flex flex-col items-center gap-6">
+      <div className="relative z-10 w-full max-w-md bg-neutral-900/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-neutral-800 flex flex-col items-center gap-6">
         
         {/* Big Play Button */}
         <button
@@ -40,10 +42,10 @@ export function ListenLivePlayer() {
             if (!isPlaying) showPlayer();
             togglePlay();
           }}
-          className={`w-20 h-20 flex items-center justify-center rounded-full transition-all shadow-lg ${
+          className={`w-20 h-20 flex items-center justify-center rounded-full transition-all shadow-[0_4px_14px_0_rgba(0,0,0,0.39)] ${
             isPlaying 
-              ? 'bg-gray-900 hover:bg-black text-brand-crimson border-2 border-brand-crimson' 
-              : 'bg-brand-crimson hover:bg-red-700 text-white hover:scale-105'
+              ? 'bg-neutral-900 hover:bg-black text-brand-gold border-2 border-brand-gold' 
+              : 'bg-brand-gold hover:bg-brand-gold-dark text-brand-dark border-2 border-brand-gold hover:scale-105'
           }`}
         >
           {isLoading ? (
@@ -57,7 +59,7 @@ export function ListenLivePlayer() {
 
         {/* Volume Control */}
         <div className="w-full flex items-center gap-3 px-4">
-          <button onClick={toggleMute} className="text-gray-400 hover:text-white transition-colors">
+          <button onClick={toggleMute} className="text-gray-400 hover:text-brand-gold transition-colors">
             {isMuted || volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
           </button>
           <input
@@ -67,7 +69,7 @@ export function ListenLivePlayer() {
             step="0.01"
             value={isMuted ? 0 : volume}
             onChange={(e) => handleVolume(parseFloat(e.target.value))}
-            className="flex-1 h-2 bg-gray-900 rounded-lg appearance-none cursor-pointer accent-brand-crimson"
+            className="flex-1 h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-brand-gold"
           />
         </div>
         
