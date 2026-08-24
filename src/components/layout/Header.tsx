@@ -78,7 +78,7 @@ export function Header() {
     { name: 'Sports', href: '/sports' },
     { name: 'Lifestyle & Culture', href: '/lifestyle' },
     { name: 'Podcasts', href: '/podcasts' },
-        { name: 'Listen Live', href: '/listen' },
+    { name: 'Radio Schedule', href: '/listen' },
   ];
 
   return (

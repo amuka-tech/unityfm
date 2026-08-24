@@ -5,7 +5,7 @@ import { Radio, Play, Pause, Loader2 } from 'lucide-react';
 import { useRadio } from '@/context/RadioContext';
 
 export function NowPlayingBanner() {
-  const { isPlaying, isLoading, togglePlay } = useRadio();
+  const { isPlaying, isLoading, togglePlay, showPlayer } = useRadio();
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
@@ -27,7 +27,7 @@ export function NowPlayingBanner() {
         <p className="text-sm text-gray-600 mb-4">Broadcasting live from Northern Uganda</p>
         
         <button 
-          onClick={togglePlay}
+          onClick={() => {\n            if (!isPlaying) showPlayer();\n            togglePlay();\n          }}
           className={`flex items-center justify-center gap-2 w-full font-medium py-2 px-4 rounded-lg transition-colors mb-4 ${
             isPlaying ? 'bg-gray-100 hover:bg-gray-200 text-gray-900' : 'bg-brand-crimson hover:bg-red-700 text-white'
           }`}
