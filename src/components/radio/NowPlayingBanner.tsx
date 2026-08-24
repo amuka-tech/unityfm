@@ -1,10 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Radio, Play, Pause, Loader2 } from 'lucide-react';
 import { useRadio } from '@/context/RadioContext';
+import { getCurrentShow } from '@/lib/schedule';
 
 export function NowPlayingBanner() {
+  const [currentShow, setCurrentShow] = useState(getCurrentShow());
+
+  useEffect(() => {
+    const interval = setInterval(() => setCurrentShow(getCurrentShow()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { isPlaying, isLoading, togglePlay, showPlayer } = useRadio();
 
   return (
@@ -23,8 +31,8 @@ export function NowPlayingBanner() {
       </div>
 
       <div className="p-4">
-        <h3 className="font-bold text-lg text-gray-900 mb-1">Radio Unity FM</h3>
-        <p className="text-sm text-gray-600 mb-4">Broadcasting live from Northern Uganda</p>
+        <h3 className="font-bold text-lg text-gray-900 mb-0">{currentShow.show}</h3>
+        <p className="text-sm text-gray-600 mb-4">with {currentShow.host}</p>
         
         <button 
           onClick={() => {

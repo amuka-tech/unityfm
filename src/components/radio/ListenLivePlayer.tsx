@@ -1,10 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Radio, Play, Pause, Loader2, Volume2, VolumeX } from 'lucide-react';
 import { useRadio } from '@/context/RadioContext';
+import { getCurrentShow } from '@/lib/schedule';
 
 export function ListenLivePlayer() {
+  const [currentShow, setCurrentShow] = useState(getCurrentShow());
+
+  useEffect(() => {
+    const interval = setInterval(() => setCurrentShow(getCurrentShow()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { 
     showPlayer,
     isPlaying, 
@@ -48,9 +56,11 @@ export function ListenLivePlayer() {
         <div className={`w-32 h-32 mx-auto bg-neutral-900 rounded-full flex items-center justify-center mb-6 shadow-2xl border-4 transition-all duration-500 ${isPlaying ? 'border-brand-gold shadow-[0_0_30px_rgba(255,194,14,0.4)]' : 'border-neutral-800'}`}>
           <Radio className={`w-16 h-16 transition-colors duration-500 ${isPlaying ? 'text-brand-gold' : 'text-neutral-500'}`} />
         </div>
-        <h2 className="text-3xl font-black mb-2 tracking-tight">Radio Unity FM</h2>
-        <p className="text-brand-gold font-medium mb-1">97.7 FM</p>
-        <p className="text-gray-400 text-sm tracking-widest uppercase">{error ? 'Stream Error' : isPlaying ? 'Live Broadcast' : 'Ready to Play'}</p>
+        <h2 className="text-3xl font-black mb-1 tracking-tight">{currentShow.show}</h2>
+        {currentShow.show !== 'Radio Unity FM' && <p className="text-sm text-brand-gold mb-3 font-medium">with {currentShow.host}</p>}
+        <p className="text-gray-400 text-sm tracking-widest uppercase">
+          {error ? 'Stream Error' : isPlaying ? 'Live Broadcast' : '97.7 FM'}
+        </p>
       </div>
 
       <div className="relative z-10 w-full max-w-md bg-neutral-900/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-neutral-800 flex flex-col items-center gap-6">

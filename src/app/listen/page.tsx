@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { Radio, ExternalLink, Calendar, Clock, Disc } from 'lucide-react';
 import { ListenLivePlayer } from '@/components/radio/ListenLivePlayer';
+import { NowPlayingCard } from '@/components/radio/NowPlayingCard';
 
 export const metadata: Metadata = {
   title: 'Listen Live ?" Radio Unity FM 97.7',
@@ -70,12 +71,7 @@ export default function ListenLivePage() {
           <div className="space-y-6">
             
             {/* Now Playing Card */}
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 relative overflow-hidden group hover:border-brand-gold/50 transition-colors">
-              <div className="absolute top-0 left-0 w-1 h-full bg-brand-gold"></div>
-              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Currently Playing</h3>
-              <p className="text-2xl font-bold text-gray-900 mb-1">Morning Breeze</p>
-              <p className="text-gray-600 font-medium">with DJ Okello</p>
-            </div>
+            <NowPlayingCard />
 
             {/* Simple Schedule */}
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
