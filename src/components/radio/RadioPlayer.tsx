@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, Radio, ExternalLink, Loader2 } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Radio, ExternalLink, Loader2, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRadio } from '@/context/RadioContext';
 
 // The direct stream URL (Zeno) for native HTML5 playback without CORS issues
 const STREAM_URL = 'https://stream.zeno.fm/27hu4m1x768uv';
 
 export function RadioPlayer() {
+  const { isPlayerVisible, hidePlayer } = useRadio();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -95,6 +97,8 @@ export function RadioPlayer() {
     }
   };
 
+  if (!isPlayerVisible) return null;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 border-t border-gray-800 text-white shadow-2xl">
       <audio ref={audioRef} preload="none" />
@@ -170,12 +174,12 @@ export function RadioPlayer() {
 
           <div className="w-px h-6 bg-gray-700 hidden md:block"></div>
 
-          <Link
-            href="/listen"
-            className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-gray-300 hover:text-white bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-full transition-colors flex-shrink-0"
+          <button
+            onClick={hidePlayer}
+            className="flex items-center justify-center w-8 h-8 rounded-full text-gray-400 hover:bg-gray-800 hover:text-white transition-colors"
           >
-            Open Player
-          </Link>
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
       </div>

@@ -49,6 +49,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { RadioProvider } from '@/context/RadioContext';
+
 export default function RootLayout({
   children,
 }: {
@@ -67,13 +69,15 @@ export default function RootLayout({
       <body className={`min-h-screen flex flex-col justify-between antialiased ${poppins.variable} ${poppins.className}`} suppressHydrationWarning>
         <DataSaverProvider>
           <AuthProvider>
-            <div className="flex flex-col min-h-screen">
-              <PublicLayoutWrapper>
-                {children}
-              </PublicLayoutWrapper>
-              {/* Uganda DPPA 2019 Privacy & Cookie Consent */}
-              <CookieConsentBanner />
-            </div>
+            <RadioProvider>
+              <div className="flex flex-col min-h-screen">
+                <PublicLayoutWrapper>
+                  {children}
+                </PublicLayoutWrapper>
+                {/* Uganda DPPA 2019 Privacy & Cookie Consent */}
+                <CookieConsentBanner />
+              </div>
+            </RadioProvider>
           </AuthProvider>
         </DataSaverProvider>
       </body>
