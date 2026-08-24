@@ -30,14 +30,21 @@ export function NowPlayingBanner() {
           Listen Live
         </Link>
 
-        {/* Radio Garden Embed */}
-        <div className="rounded-lg overflow-hidden border border-gray-200 h-[200px]">
-          <iframe 
-            src="https://radio.garden/embed/radio-unity-fm-97-7/LHckS4Xk"
-            frameBorder="0" 
-            className="w-full h-full"
-            title="Radio Garden Player"
-          />
+        {/* Stream Visualizer Placeholder */}
+        <div className="rounded-lg overflow-hidden border border-gray-200 h-[120px] bg-gray-900 relative flex items-center justify-center">
+           <div className="flex items-end space-x-1 h-12">
+             {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+               <div 
+                 key={i} 
+                 className="w-3 bg-brand-crimson rounded-t-sm"
+                 style={{ 
+                   height: `${Math.max(20, Math.random() * 100)}%`,
+                   animation: `pulse ${0.5 + (i * 0.1)}s infinite alternate`
+                 }}
+               />
+             ))}
+           </div>
+           <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-80" />
         </div>
       </div>
     </div>
