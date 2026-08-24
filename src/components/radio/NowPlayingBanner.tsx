@@ -4,12 +4,8 @@ import React from 'react';
 import { Radio, ExternalLink, PlayCircle } from 'lucide-react';
 import Link from 'next/link';
 
-import { useRadio } from '@/context/RadioContext';
-
 export function NowPlayingBanner() {
-  const { showPlayer } = useRadio();
-
-  return (
+    return (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
       <div className="p-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -26,13 +22,13 @@ export function NowPlayingBanner() {
         <h3 className="font-bold text-lg text-gray-900 mb-1">Radio Unity FM</h3>
         <p className="text-sm text-gray-600 mb-4">Morning Breeze with DJ Okello</p>
         
-        <button 
-          onClick={showPlayer}
+        <Link 
+          href="/listen"
           className="flex items-center justify-center gap-2 w-full bg-brand-crimson hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors mb-4"
         >
           <PlayCircle className="w-5 h-5" />
           Listen Live
-        </button>
+        </Link>
 
         {/* Stream Visualizer Placeholder */}
         <div className="rounded-lg overflow-hidden border border-gray-200 h-[120px] bg-gray-900 relative flex items-center justify-center">
