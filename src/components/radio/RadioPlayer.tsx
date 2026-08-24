@@ -97,6 +97,7 @@ export function RadioPlayer() {
 
           <button
             onClick={() => {
+              if (isPlaying) togglePlay();
               hidePlayer();
             }}
             className="flex items-center justify-center w-8 h-8 rounded-full text-gray-400 hover:bg-gray-800 hover:text-white transition-colors"
