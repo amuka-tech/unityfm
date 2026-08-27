@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { MapPin, ArrowRight, Wheat, Activity } from 'lucide-react';
-import { Article } from '@/types';
+import { Article, Commodity } from '@/types';
 import { useDataSaver } from '@/context/DataSaverContext';
 
 const districts = [
@@ -18,15 +18,7 @@ const districts = [
   'Amolatar',
 ];
 
-const commodityPrices = [
-  { name: 'Organic Shea Nuts (Grade A)', price: 'UGX 3,800 / kg', trend: '+12% (Otuke Hub)' },
-  { name: 'Soya Beans (Clean)', price: 'UGX 2,450 / kg', trend: '+5% (Lira Main)' },
-  { name: 'Simsim / Sesame', price: 'UGX 5,200 / kg', trend: '+8% (Dokolo Market)' },
-  { name: 'White Sorghum (Nile Spec)', price: 'UGX 1,600 / kg', trend: 'Stable (Kole Sacco)' },
-  { name: 'Sunflower Seeds', price: 'UGX 2,100 / kg', trend: '+4% (Mount Meru Gate)' },
-];
-
-export function RegionalHubSection({ articles }: { articles: Article[] }) {
+export function RegionalHubSection({ articles, commodities = [] }: { articles: Article[], commodities?: Commodity[] }) {
   const [activeDistrict, setActiveDistrict] = useState('All Lango');
   const { getImageUrl } = useDataSaver();
 
@@ -69,23 +61,25 @@ export function RegionalHubSection({ articles }: { articles: Article[] }) {
         </div>
 
         {/* Commodity Market Ticker Strip (Crucial for Northern Uganda Agro-economy) */}
-        <div className="bg-white rounded-brand p-3 border border-gray-200 mb-6 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
-          <div className="flex items-center space-x-2 text-xs font-black text-emerald-800 uppercase tracking-wider flex-shrink-0">
-            <Wheat className="w-4 h-4 text-emerald-600" />
-            <span>Lango Agri-Market Commodity Watch</span>
-          </div>
+        {commodities.length > 0 && (
+          <div className="bg-white rounded-brand p-3 border border-gray-200 mb-6 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
+            <div className="flex items-center space-x-2 text-xs font-black text-emerald-800 uppercase tracking-wider flex-shrink-0">
+              <Wheat className="w-4 h-4 text-emerald-600" />
+              <span>Lango Agri-Market Commodity Watch</span>
+            </div>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-700">
-            {commodityPrices.map((item, idx) => (
-              <div key={idx} className="flex items-center space-x-1.5">
-                <span className="font-medium text-gray-900">{item.name}:</span>
-                <span className="font-bold text-emerald-700">{item.price}</span>
-                <span className="text-[10px] text-gray-400">({item.trend})</span>
-                {idx < commodityPrices.length - 1 && <span className="text-gray-300 ml-2 hidden sm:inline">•</span>}
-              </div>
-            ))}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-700">
+              {commodities.map((item, idx) => (
+                <div key={idx} className="flex items-center space-x-1.5">
+                  <span className="font-medium text-gray-900">{item.name}:</span>
+                  <span className="font-bold text-emerald-700">{item.price}</span>
+                  <span className="text-[10px] text-gray-400">({item.trend})</span>
+                  {idx < commodities.length - 1 && <span className="text-gray-300 ml-2 hidden sm:inline">•</span>}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Articles 3-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

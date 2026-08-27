@@ -570,3 +570,42 @@ export async function updateLiveBlogUpdateDb(updateId: number, content: string, 
   }).eq('id', updateId);
   return !error;
 }
+
+export async function getCommoditiesDb() {
+  const { data, error } = await supabase.from('agri_commodities').select('*').order('id', { ascending: true });
+  if (error) {
+    console.error('Error fetching commodities:', error);
+    return [];
+  }
+  return data || [];
+}
+
+export async function saveCommodityDb(commodity: any) {
+  const session = await getServerSession();
+  if (!session) throw new Error('Unauthorized');
+
+  if (commodity.id) {
+    const { error } = await supabase.from('agri_commodities').update({
+      name: commodity.name,
+      price: commodity.price,
+      trend: commodity.trend,
+      last_updated: new Date().toISOString()
+    }).eq('id', commodity.id);
+    return !error;
+  } else {
+    const { error } = await supabase.from('agri_commodities').insert({
+      name: commodity.name,
+      price: commodity.price,
+      trend: commodity.trend
+    });
+    return !error;
+  }
+}
+
+export async function deleteCommodityDb(id: number) {
+  const session = await getServerSession();
+  if (!session) throw new Error('Unauthorized');
+
+  const { error } = await supabase.from('agri_commodities').delete().eq('id', id);
+  return !error;
+}

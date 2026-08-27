@@ -187,3 +187,11 @@ export interface WhistleblowerSubmission {
   details: string;
   urgency?: 'low' | 'medium' | 'high' | 'breaking';
 }
+
+export interface Commodity {
+  id: number;
+  name: string;
+  price: string;
+  trend: string;
+  last_updated?: string;
+}

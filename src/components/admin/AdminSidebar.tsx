@@ -16,7 +16,8 @@ import {
   ExternalLink,
   Tv,
   X,
-  Menu
+  Menu,
+  Wheat
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -55,6 +56,7 @@ export function AdminSidebar({
     '/admin/live-blog': ['managing_director', 'super_admin', 'broadcast_director', 'news_editor', 'field_reporter'],
     '/admin/streams': ['managing_director', 'super_admin', 'broadcast_director'],
     '/admin/epg': ['managing_director', 'super_admin', 'broadcast_director'],
+    '/admin/agri': ['managing_director', 'super_admin', 'news_editor'],
     '/admin/whistleblower': ['managing_director', 'super_admin', 'news_editor'],
     '/admin/settings': ['managing_director', 'super_admin']
   };
@@ -65,6 +67,7 @@ export function AdminSidebar({
     { href: '/admin/live-blog', label: 'Live Blog Updates', icon: Activity, badge: 'LIVE', badgeColor: 'bg-red-500 text-white' },
     { href: '/admin/streams', label: 'Radio Studio', icon: Radio, badge: isLive ? 'ON AIR' : null, badgeColor: 'bg-red-500 text-white' },
     { href: '/admin/epg', label: 'Program Guide', icon: Calendar },
+    { href: '/admin/agri', label: 'Agri-Market Desk', icon: Wheat },
     { href: '/admin/whistleblower', label: 'Tips & Leaks', icon: ShieldAlert, badge: unreadTipsCount > 0 ? `${unreadTipsCount}` : null, badgeColor: 'bg-brand-crimson text-white' },
     { href: '/admin/settings', label: 'Roles & Settings', icon: Users }
   ];
