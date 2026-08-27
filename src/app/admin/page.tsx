@@ -53,7 +53,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center p-4 selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center p-4 selection:bg-brand-gold selection:text-black">
       {/* Brand Header */}
       <div className="mb-8 flex flex-col items-center">
         <div className="mb-6">
@@ -73,7 +73,7 @@ export default function AdminPage() {
       <div className="w-full max-w-[400px] bg-white rounded-2xl border border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8">
         <form onSubmit={handleLoginSubmit} className="space-y-5">
           {loginError && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm flex items-center gap-2 font-medium">
+            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm flex items-center gap-2 font-medium border border-red-100">
               <AlertCircle className="w-4 h-4 shrink-0" />
               {loginError}
             </div>
@@ -87,7 +87,7 @@ export default function AdminPage() {
               value={loginEmail}
               onChange={(e) => setLoginEmail(e.target.value)}
               placeholder="name@radiounity.ug"
-              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-colors"
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold transition-colors"
             />
           </div>
 
@@ -101,18 +101,18 @@ export default function AdminPage() {
               value={loginPass}
               onChange={(e) => setLoginPass(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-colors"
+              className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold transition-colors"
             />
           </div>
 
           <button
             type="submit"
             disabled={isLoggingIn}
-            className="w-full bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+            className="w-full bg-brand-crimson hover:bg-brand-crimson-light active:bg-[#6a0000] text-white font-medium py-2 px-4 rounded-lg text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2 shadow-sm"
           >
             {isLoggingIn ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin text-brand-gold" />
                 Authenticating...
               </>
             ) : (
@@ -124,7 +124,7 @@ export default function AdminPage() {
       
       {/* Footer */}
       <div className="mt-8 flex items-center gap-2 text-sm text-gray-400">
-        <Lock className="w-3 h-3" />
+        <Lock className="w-3 h-3 text-brand-gold" />
         <span>Secure Portal Area</span>
       </div>
     </div>
