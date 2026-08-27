@@ -46,11 +46,13 @@ export const metadata: Metadata = {
 
 import { RadioProvider } from '@/context/RadioContext';
 
+import InstallPrompt from '@/components/layout/InstallPrompt';
+
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
       <head>
@@ -58,6 +60,9 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/radio-unity-logo.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#FFC20E" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Radio Unity" />
       </head>
       <body className={`min-h-screen flex flex-col justify-between antialiased ${poppins.variable} ${poppins.className}`} suppressHydrationWarning>
         <DataSaverProvider>
@@ -69,6 +74,7 @@ export default function RootLayout({
                 </PublicLayoutWrapper>
                 {/* Uganda DPPA 2019 Privacy & Cookie Consent */}
                 <CookieConsentBanner />
+                <InstallPrompt />
               </div>
             </RadioProvider>
           </AuthProvider>

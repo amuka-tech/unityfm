@@ -1,16 +1,42 @@
 {
-  "name": "Radio Unity Uganda — Northern Uganda News & Live Broadcast",
+  "name": "Radio Unity Uganda",
   "short_name": "Radio Unity",
-  "description": "Digital-first regional broadcaster and news publication based in Lira City, Uganda.",
+  "description": "The Authoritative Voice of Northern Uganda. Live TV, News & EPG.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
   "background_color": "#111111",
   "theme_color": "#FFC20E",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/radio-unity-logo.png",
+      "src": "/radio-unity-logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/radio-unity-logo-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Watch Live",
+      "short_name": "Live TV",
+      "description": "Tune in to the live broadcast",
+      "url": "/live",
+      "icons": [{ "src": "/radio-unity-logo-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Submit Tip",
+      "short_name": "Whistleblower",
+      "description": "Secure, encrypted tip submission",
+      "url": "/whistleblower",
+      "icons": [{ "src": "/radio-unity-logo-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

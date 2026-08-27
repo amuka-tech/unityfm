@@ -10,6 +10,7 @@
     "rtmp": "node scripts/local-rtmp-server.js"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.9",
     "@supabase/supabase-js": "^2.112.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",
