@@ -37,16 +37,11 @@ export const metadata: Metadata = {
     site: '@RadioUnityUganda',
   },
   icons: {
-    icon: [
-      { url: '/favicon-32x32.png?v=3', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-16x16.png?v=3', sizes: '16x16', type: 'image/png' },
-      { url: '/icon-192.png?v=3', sizes: '192x192', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png?v=3', sizes: '180x180', type: 'image/png' },
-    ],
-    shortcut: '/favicon.ico?v=3',
+    icon: '/radio-unity-logo.png',
+    shortcut: '/radio-unity-logo.png',
+    apple: '/radio-unity-logo.png',
   },
+  manifest: '/manifest.json',
 };
 
 import { RadioProvider } from '@/context/RadioContext';
@@ -57,12 +52,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=3" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=3" />
-        <link rel="shortcut icon" href="/favicon.ico?v=3" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+        <link rel="icon" type="image/png" href="/radio-unity-logo.png" />
+        <link rel="apple-touch-icon" href="/radio-unity-logo.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#FFC20E" />
       </head>
