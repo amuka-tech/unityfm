@@ -233,7 +233,7 @@ export async function updateBroadcastStateDb(state: Partial<BroadcastState>): Pr
 }
 
 export async function getScheduleScheduleDb(day?: string): Promise<ScheduleProgram[]> {
-  let query = supabase.from('Schedule_schedule').select('*');
+  let query = supabase.from('schedule_schedule').select('*');
   if (day) {
     query = query.eq('day_of_week', day);
   }
@@ -259,7 +259,7 @@ export async function getScheduleScheduleDb(day?: string): Promise<ScheduleProgr
 export async function saveScheduleProgramDb(program: Partial<ScheduleProgram>): Promise<ScheduleProgram> {
   const id = program.id ? String(program.id) : `Schedule-${Date.now()}`;
   
-  await supabase.from('Schedule_schedule').upsert({
+  await supabase.from('schedule_schedule').upsert({
     id,
     show_name: program.show_name || 'Unity Broadcast',
     description: program.description || '',
@@ -289,7 +289,7 @@ export async function saveScheduleProgramDb(program: Partial<ScheduleProgram>): 
 }
 
 export async function deleteScheduleProgramDb(id: string | number): Promise<boolean> {
-  const { error } = await supabase.from('Schedule_schedule').delete().eq('id', String(id));
+  const { error } = await supabase.from('schedule_schedule').delete().eq('id', String(id));
   return !error;
 }
 
