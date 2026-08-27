@@ -32,6 +32,18 @@ export default function OverviewPage() {
       }
     };
     loadData();
+
+    // Poll live listeners every 10 seconds so the count is real-time without refreshing
+    const interval = setInterval(async () => {
+      try {
+        const count = await getLiveListenersCount();
+        setListeners(count);
+      } catch (e) {
+        console.error('Error polling live listeners:', e);
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (isLoading) return <div className="p-4 text-center">Loading Overview...</div>;
