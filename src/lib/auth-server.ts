@@ -38,8 +38,6 @@ export async function loginServerAction(email: string, pass: string): Promise<{ 
       .from('users')
       .select('*')
       .eq('email', normalizedEmail)
-      .single();
-    
     if (error || !user) {
       return { success: false, error: 'Invalid staff email or authorization passcode.' };
     }
