@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Radio, Lock, Loader2, AlertCircle } from 'lucide-react';
+import Image from 'next/image';
 
 export default function AdminPage() {
   const { user, login, isInitialized, logout } = useAuth();
@@ -55,8 +56,14 @@ export default function AdminPage() {
     <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center p-4 selection:bg-black selection:text-white">
       {/* Brand Header */}
       <div className="mb-8 flex flex-col items-center">
-        <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center mb-6 shadow-sm">
-          <Radio className="w-6 h-6 text-white" />
+        <div className="mb-6">
+          <Image 
+            src="/radio-unity-logo.png" 
+            alt="Radio Unity Logo" 
+            width={80} 
+            height={80}
+            className="drop-shadow-sm"
+          />
         </div>
         <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">Log in to Unity</h1>
         <p className="text-sm text-gray-500 mt-2">Enter your staff credentials to continue</p>
