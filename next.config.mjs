@@ -18,6 +18,7 @@ const nextConfig = {
       bodySizeLimit: '50mb',
     },
   },
+  turbopack: {},
 };
 
 const withPWA = withPWAInit({
