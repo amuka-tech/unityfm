@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
-import { pingListener } from '@/lib/listener-actions';
+import { pingListener, stopListener } from '@/lib/listener-actions';
 
 const STREAM_URL = 'https://stream.zeno.fm/27hu4m1x768uv';
 
@@ -39,7 +39,12 @@ export function RadioProvider({ children }: { children: React.ReactNode }) {
 
   // Ping server every 30 seconds while playing
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying) {
+      if (listenerIdRef.current) {
+        stopListener(listenerIdRef.current);
+      }
+      return;
+    }
     
     // Ping immediately when play starts
     pingListener(listenerIdRef.current);
@@ -48,7 +53,11 @@ export function RadioProvider({ children }: { children: React.ReactNode }) {
       pingListener(listenerIdRef.current);
     }, 30000);
     
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      // Also stop tracking if component unmounts while playing
+      stopListener(listenerIdRef.current);
+    };
   }, [isPlaying]);
 
   useEffect(() => {

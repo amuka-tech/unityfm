@@ -15,6 +15,15 @@ export async function pingListener(listenerId: string) {
   }
 }
 
+// Removes the listener immediately when they pause or leave
+export async function stopListener(listenerId: string) {
+  try {
+    await supabase.from('live_listeners').delete().eq('id', listenerId);
+  } catch (error) {
+    console.error('Failed to stop listener', error);
+  }
+}
+
 // Retrieves the total count of listeners active in the last 60 seconds
 export async function getLiveListenersCount() {
   try {
