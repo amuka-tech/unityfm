@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Radio, Lock, Mail, Loader2, ArrowRight } from 'lucide-react';
 
 export default function AdminPage() {
-  const { user, login, isInitialized } = useAuth();
+  const { user, login, isInitialized, logout } = useAuth();
   const router = useRouter();
 
   const [loginEmail, setLoginEmail] = useState('');
@@ -15,10 +15,17 @@ export default function AdminPage() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const hasError = searchParams.has('error');
+    
     if (isInitialized && user) {
-      router.push('/admin/overview');
+      if (hasError) {
+        logout(); // clear the bad session
+      } else {
+        router.push('/admin/overview');
+      }
     }
-  }, [user, isInitialized, router]);
+  }, [user, isInitialized, router, logout]);
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
