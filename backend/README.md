@@ -1,6 +1,6 @@
-# Unity TV — Laravel 11 + FilamentPHP v3 Headless API Backend
+# Radio Unity — Laravel 11 + FilamentPHP v3 Headless API Backend
 
-This is the production backend for **Unity TV Uganda**, powering the editorial CMS, role-based workflows, live stream switcher, EPG schedule, real-time Reverb WebSockets, and low-bandwidth API endpoints.
+This is the production backend for **Radio Unity Uganda**, powering the editorial CMS, role-based workflows, live stream switcher, EPG schedule, real-time Reverb WebSockets, and low-bandwidth API endpoints.
 
 ## Tech Stack & Ecosystem
 - **Framework**: Laravel 11.x
