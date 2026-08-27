@@ -15,12 +15,12 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-export function OverviewDesk({ articles, tips, onNavigateTab }: any) {
+export function OverviewDesk({ articles, tips, listeners, onNavigateTab }: any) {
   
   const stats = [
     { label: 'Published Articles', value: articles?.length || 0, icon: Newspaper, trend: 'Total', color: 'text-blue-600', bg: 'bg-blue-50' },
     { label: 'On Air Status', value: 'LIVE', icon: Mic, trend: '97.7 FM', color: 'text-brand-crimson', bg: 'bg-red-50' },
-    { label: 'Live Listeners', value: '0', icon: Headphones, trend: 'Streaming now', color: 'text-green-600', bg: 'bg-green-50' },
+    { label: 'Live Listeners', value: listeners || 0, icon: Headphones, trend: 'Streaming now', color: 'text-green-600', bg: 'bg-green-50' },
     { label: 'Active Leaks', value: tips?.length || 0, icon: ShieldAlert, trend: 'Needs Review', color: 'text-orange-600', bg: 'bg-orange-50' },
   ];
 

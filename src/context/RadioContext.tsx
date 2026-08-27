@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
+import { pingListener } from '@/lib/listener-actions';
 
 const STREAM_URL = 'https://stream.zeno.fm/27hu4m1x768uv';
 
@@ -13,7 +14,6 @@ interface RadioContextType {
   togglePlay: () => void;
   handleVolume: (volume: number) => void;
   toggleMute: () => void;
-  // We keep isPlayerVisible in case we still want a sticky player
   isPlayerVisible: boolean;
   showPlayer: () => void;
   hidePlayer: () => void;
@@ -23,12 +23,33 @@ const RadioContext = createContext<RadioContextType | undefined>(undefined);
 
 export function RadioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const listenerIdRef = useRef<string>('');
+  
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+
+  useEffect(() => {
+    // Generate a unique session ID for this listener tab on mount
+    listenerIdRef.current = Math.random().toString(36).substring(2) + Date.now().toString(36);
+  }, []);
+
+  // Ping server every 30 seconds while playing
+  useEffect(() => {
+    if (!isPlaying) return;
+    
+    // Ping immediately when play starts
+    pingListener(listenerIdRef.current);
+    
+    const interval = setInterval(() => {
+      pingListener(listenerIdRef.current);
+    }, 30000);
+    
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   useEffect(() => {
     const handleGlobalError = (event: ErrorEvent) => {
