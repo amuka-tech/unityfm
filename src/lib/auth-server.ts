@@ -3,6 +3,8 @@
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
 import { User, Role, Permission, ROLE_PERMISSIONS, UserRole } from '@/types';
+import { supabase } from './supabase';
+import { logAudit } from './audit';
 
 const AUTH_SECRET = process.env.AUTH_SECRET || 'fallback-secret-key-at-least-32-chars-long';
 const COOKIE_NAME = 'unity_session';
@@ -18,8 +20,11 @@ export interface SessionData {
   iat: number;
   exp: number;
 }
-import { getDb, hashPassword } from './db';
-import { logAudit } from './audit';
+
+function hashPassword(password: string) {
+  const salt = 'unity-tv-uganda-salt';
+  return crypto.scryptSync(password, salt, 32).toString('hex');
+}
 
 function signPayload(payload: string): string {
   return crypto.createHmac('sha256', AUTH_SECRET).update(payload).digest('hex');
@@ -28,17 +33,20 @@ function signPayload(payload: string): string {
 export async function loginServerAction(email: string, pass: string): Promise<{ success: boolean; user?: User; error?: string }> {
   try {
     const normalizedEmail = email.toLowerCase().trim();
-    const db = getDb();
     
-    const user = db.prepare('SELECT * FROM users WHERE email = ?').get(normalizedEmail) as any;
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', normalizedEmail)
+      .single();
     
-    if (!user) {
+    if (error || !user) {
       return { success: false, error: 'Invalid staff email or authorization passcode.' };
     }
     
     const hashedInput = hashPassword(pass);
     if (user.password_hash !== hashedInput) {
-      logAudit(normalizedEmail, user.role, 'LOGIN_FAILED', 'Invalid password');
+      await logAudit(normalizedEmail, user.role, 'LOGIN_FAILED', 'Invalid password');
       return { success: false, error: 'Invalid staff email or authorization passcode.' };
     }
 
@@ -46,10 +54,11 @@ export async function loginServerAction(email: string, pass: string): Promise<{ 
     const sessionId = crypto.randomUUID();
     
     // Create session in DB
-    db.prepare(`
-      INSERT INTO sessions (id, user_id, expires_at)
-      VALUES (?, ?, ?)
-    `).run(sessionId, user.id, now + 60 * 60 * 24 * 7);
+    await supabase.from('sessions').insert({
+      id: sessionId,
+      user_id: user.id,
+      expires_at: now + 60 * 60 * 24 * 7
+    });
 
     const session: SessionData = {
       id: user.id,
@@ -77,7 +86,7 @@ export async function loginServerAction(email: string, pass: string): Promise<{ 
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    logAudit(user.email, user.role, 'LOGIN_SUCCESS', 'User logged in successfully');
+    await logAudit(user.email, user.role, 'LOGIN_SUCCESS', 'User logged in successfully');
 
     return {
       success: true,
@@ -102,10 +111,13 @@ export async function switchRoleAction(newRole: string): Promise<{ success: bool
     const session = await getServerSession();
     if (!session) return { success: false, error: 'Not authenticated' };
 
-    const db = getDb();
-    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(session.id) as any;
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', session.id)
+      .single();
 
-    if (!user || !user.can_impersonate) {
+    if (error || !user || !user.can_impersonate) {
       return { success: false, error: 'You do not have permission to switch roles.' };
     }
 
@@ -137,7 +149,7 @@ export async function switchRoleAction(newRole: string): Promise<{ success: bool
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    logAudit(user.email, newRole, 'ROLE_SWITCH', `Switched to ${newRole}`);
+    await logAudit(user.email, newRole, 'ROLE_SWITCH', `Switched to ${newRole}`);
 
     return { success: true };
   } catch (err) {
@@ -149,9 +161,13 @@ export async function verifyPassword(password: string): Promise<boolean> {
   const session = await getServerSession();
   if (!session) return false;
 
-  const db = getDb();
-  const user = db.prepare('SELECT password_hash FROM users WHERE id = ?').get(session.id) as any;
-  if (!user) return false;
+  const { data: user, error } = await supabase
+    .from('users')
+    .select('password_hash')
+    .eq('id', session.id)
+    .single();
+
+  if (error || !user) return false;
 
   const hashedInput = hashPassword(password);
   return user.password_hash === hashedInput;

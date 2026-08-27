@@ -1,181 +1,12 @@
 'use server';
 
-import { getDb as getBaseDb } from './db';
-import { mockArticles, mockScheduleSchedule, mockBroadcastState } from './mockData';
+import crypto from 'crypto';
+import fs from 'fs';
+import path from 'path';
+import { supabase } from './supabase';
+import { getServerSession } from './auth-server';
 import { Article, BroadcastState, ScheduleProgram } from '@/types';
-
-let appDbInitialized = false;
-
-function getDb() {
-  const dbInstance = getBaseDb();
-  
-  if (!appDbInitialized) {
-    appDbInitialized = true;
-
-    // Create tables
-    dbInstance.exec(`
-
-      CREATE TABLE IF NOT EXISTS articles (
-        id TEXT PRIMARY KEY,
-        title TEXT NOT NULL,
-        slug TEXT NOT NULL UNIQUE,
-        excerpt TEXT,
-        content TEXT,
-        featured_image TEXT,
-        category_id INTEGER,
-        category_name TEXT,
-        category_slug TEXT,
-        category_color TEXT,
-        location_tag TEXT,
-        author_id INTEGER,
-        author_name TEXT,
-        author_role TEXT,
-        author_avatar TEXT,
-        is_breaking INTEGER DEFAULT 0,
-        is_hero INTEGER DEFAULT 0,
-        view_count INTEGER DEFAULT 0,
-        published_at TEXT
-      );
-
-      CREATE TABLE IF NOT EXISTS broadcast_state (
-        id INTEGER PRIMARY KEY,
-        stream_url_hls TEXT,
-        stream_url_youtube TEXT,
-        is_emergency_slate INTEGER DEFAULT 0,
-        now_playing_title TEXT,
-        now_playing_presenter TEXT
-      );
-
-      CREATE TABLE IF NOT EXISTS Schedule_schedule (
-        id TEXT PRIMARY KEY,
-        show_name TEXT,
-        description TEXT,
-        start_time TEXT,
-        end_time TEXT,
-        day_of_week TEXT,
-        presenter_name TEXT,
-        presenter_role TEXT,
-        category TEXT
-      );
-
-
-      CREATE TABLE IF NOT EXISTS tips (
-        id TEXT PRIMARY KEY,
-        reference TEXT,
-        topic TEXT,
-        details TEXT,
-        district TEXT,
-        phone_or_whatsapp TEXT,
-        created_at TEXT
-      );
-
-      CREATE TABLE IF NOT EXISTS stream_keys (
-        id TEXT PRIMARY KEY,
-        stream_key TEXT UNIQUE NOT NULL,
-        label TEXT,
-        is_active INTEGER DEFAULT 1,
-        created_at TEXT,
-        last_used_at TEXT
-      );
-    `);
-
-    // Auto-seed articles if empty
-    const articleCount = dbInstance.prepare('SELECT COUNT(*) as count FROM articles').get().count;
-    if (articleCount === 0) {
-      const insertArticle = dbInstance.prepare(`
-        INSERT INTO articles (
-          id, title, slug, excerpt, content, featured_image,
-          category_id, category_name, category_slug, category_color,
-          location_tag, author_id, author_name, author_role, author_avatar,
-          is_breaking, is_hero, view_count, published_at
-        ) VALUES (
-          ?, ?, ?, ?, ?, ?,
-          ?, ?, ?, ?,
-          ?, ?, ?, ?, ?,
-          ?, ?, ?, ?
-        )
-      `);
-
-      const insertMany = dbInstance.transaction((articles: Article[]) => {
-        for (const art of articles) {
-          insertArticle.run(
-            String(art.id),
-            art.title,
-            art.slug,
-            art.excerpt,
-            art.content,
-            art.featured_image,
-            art.category.id,
-            art.category.name,
-            art.category.slug,
-            art.category.color,
-            art.location_tag,
-            art.author.id,
-            art.author.name,
-            art.author.designation || 'Staff Reporter',
-            art.author.avatar_url,
-            art.is_breaking ? 1 : 0,
-            art.is_hero ? 1 : 0,
-            art.view_count || 0,
-            art.published_at || new Date().toISOString()
-          );
-        }
-      });
-      insertMany(mockArticles);
-    }
-
-    // Auto-seed broadcast state
-    const broadcastCount = dbInstance.prepare('SELECT COUNT(*) as count FROM broadcast_state').get().count;
-    if (broadcastCount === 0) {
-      dbInstance.prepare(`
-        INSERT INTO broadcast_state (id, stream_url_hls, stream_url_youtube, is_emergency_slate, now_playing_title, now_playing_presenter)
-        VALUES (1, ?, ?, ?, ?, ?)
-      `).run(
-        mockBroadcastState.stream_url_hls,
-        mockBroadcastState.stream_url_youtube,
-        mockBroadcastState.is_emergency_slate ? 1 : 0,
-        mockBroadcastState.now_playing.title,
-        mockBroadcastState.now_playing.presenter
-      );
-    }
-
-    // Auto-seed Schedule schedule
-    const ScheduleCount = dbInstance.prepare('SELECT COUNT(*) as count FROM Schedule_schedule').get().count;
-    if (ScheduleCount === 0) {
-      const insertSchedule = dbInstance.prepare(`
-        INSERT INTO Schedule_schedule (id, show_name, description, start_time, end_time, day_of_week, presenter_name, presenter_role, category)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `);
-      const insertManySchedule = dbInstance.transaction((programs: ScheduleProgram[]) => {
-        for (const p of programs) {
-          insertSchedule.run(
-            String(p.id),
-            p.show_name,
-            p.description,
-            p.start_time,
-            p.end_time,
-            p.day_of_week,
-            p.presenter_name,
-            p.presenter_role || '',
-            p.category
-          );
-        }
-      });
-      insertManySchedule(mockScheduleSchedule);
-    }
-
-    // Auto-seed stream keys
-    const keyCount = dbInstance.prepare('SELECT COUNT(*) as count FROM stream_keys').get().count;
-    if (keyCount === 0) {
-      dbInstance.prepare(`
-        INSERT INTO stream_keys (id, stream_key, label, is_active, created_at)
-        VALUES (?, ?, ?, 1, ?)
-      `).run('1', 'live_utv_lira2026', 'Primary MCR Studio Feed (vMix)', new Date().toISOString());
-    }
-  }
-
-  return dbInstance;
-}
+import { mockBroadcastState } from './mockData';
 
 function mapArticle(row: any): Article {
   return {
@@ -211,41 +42,41 @@ function mapArticle(row: any): Article {
 }
 
 export async function getArticlesDb(params?: { category?: string; district?: string; breaking?: boolean; hero?: boolean; search?: string }): Promise<Article[]> {
-  const db = getDb();
-  let query = 'SELECT * FROM articles WHERE 1=1';
-  const args: any[] = [];
+  let query = supabase.from('articles').select('*');
 
   if (params?.category) {
-    query += ' AND category_slug = ?';
-    args.push(params.category);
+    query = query.eq('category_slug', params.category);
   }
   if (params?.district) {
-    query += ' AND location_tag LIKE ?';
-    args.push(`%${params.district}%`);
+    query = query.ilike('location_tag', `%${params.district}%`);
   }
   if (params?.breaking) {
-    query += ' AND is_breaking = 1';
+    query = query.eq('is_breaking', 1);
   }
   if (params?.hero) {
-    query += ' AND is_hero = 1';
+    query = query.eq('is_hero', 1);
   }
   if (params?.search) {
-    query += ' AND (title LIKE ? OR content LIKE ?)';
-    args.push(`%${params.search}%`, `%${params.search}%`);
+    query = query.or(`title.ilike.%${params.search}%,content.ilike.%${params.search}%`);
   }
 
-  query += ' ORDER BY published_at DESC';
-  const rows = db.prepare(query).all(...args);
-  return rows.map(mapArticle);
+  query = query.order('published_at', { ascending: false });
+
+  const { data, error } = await query;
+  if (error) {
+    console.error('Error fetching articles:', error);
+    return [];
+  }
+  return (data || []).map(mapArticle);
 }
 
 export async function getArticleBySlugDb(slug: string, incrementView: boolean = true): Promise<Article | null> {
-  const db = getDb();
-  const row = db.prepare('SELECT * FROM articles WHERE slug = ?').get(slug);
-  if (!row) return null;
+  const { data, error } = await supabase.from('articles').select('*').eq('slug', slug).single();
+  if (error || !data) return null;
   
+  const row = data;
   if (incrementView) {
-    db.prepare('UPDATE articles SET view_count = view_count + 1 WHERE id = ?').run(row.id);
+    await supabase.from('articles').update({ view_count: (row.view_count || 0) + 1 }).eq('id', row.id);
     row.view_count = (row.view_count || 0) + 1;
   }
   
@@ -253,7 +84,6 @@ export async function getArticleBySlugDb(slug: string, incrementView: boolean = 
 }
 
 export async function createArticleDb(data: Partial<Article>): Promise<Article> {
-  const db = getDb();
   const id = Date.now().toString();
   const newArticle: Article = {
     id: id as any,
@@ -281,48 +111,35 @@ export async function createArticleDb(data: Partial<Article>): Promise<Article> 
     published_at: new Date().toISOString(),
   };
 
-  db.prepare(`
-    INSERT INTO articles (
-      id, title, slug, excerpt, content, featured_image,
-      category_id, category_name, category_slug, category_color,
-      location_tag, author_id, author_name, author_role, author_avatar,
-      is_breaking, is_hero, is_video_story, view_count, published_at
-    ) VALUES (
-      ?, ?, ?, ?, ?, ?,
-      ?, ?, ?, ?,
-      ?, ?, ?, ?, ?,
-      ?, ?, ?, ?, ?
-    )
-  `).run(
-    String(newArticle.id),
-    newArticle.title,
-    newArticle.slug,
-    newArticle.excerpt,
-    newArticle.content,
-    newArticle.featured_image,
-    newArticle.category.id,
-    newArticle.category.name,
-    newArticle.category.slug,
-    newArticle.category.color,
-    newArticle.location_tag,
-    newArticle.author.id,
-    newArticle.author.name,
-    newArticle.author.designation || 'Staff Reporter',
-    newArticle.author.avatar_url,
-    newArticle.is_breaking ? 1 : 0,
-    newArticle.is_hero ? 1 : 0,
-    newArticle.is_video_story ? 1 : 0,
-    newArticle.view_count,
-    newArticle.published_at
-  );
+  await supabase.from('articles').insert({
+    id: String(newArticle.id),
+    title: newArticle.title,
+    slug: newArticle.slug,
+    excerpt: newArticle.excerpt,
+    content: newArticle.content,
+    featured_image: newArticle.featured_image,
+    category_id: newArticle.category.id,
+    category_name: newArticle.category.name,
+    category_slug: newArticle.category.slug,
+    category_color: newArticle.category.color,
+    location_tag: newArticle.location_tag,
+    author_id: newArticle.author.id,
+    author_name: newArticle.author.name,
+    author_role: newArticle.author.designation || 'Staff Reporter',
+    author_avatar: newArticle.author.avatar_url,
+    is_breaking: newArticle.is_breaking ? 1 : 0,
+    is_hero: newArticle.is_hero ? 1 : 0,
+    is_video_story: newArticle.is_video_story ? 1 : 0,
+    view_count: newArticle.view_count,
+    published_at: newArticle.published_at,
+  });
 
   return newArticle;
 }
 
 export async function updateArticleDb(id: string | number, data: Partial<Article>): Promise<Article | null> {
-  const db = getDb();
-  const existing = db.prepare('SELECT * FROM articles WHERE id = ?').get(String(id)) as any;
-  if (!existing) return null;
+  const { data: existing, error } = await supabase.from('articles').select('*').eq('id', String(id)).single();
+  if (error || !existing) return null;
 
   const category = data.category || {
     id: existing.category_id,
@@ -331,59 +148,43 @@ export async function updateArticleDb(id: string | number, data: Partial<Article
     color: existing.category_color,
   };
 
-  db.prepare(`
-    UPDATE articles SET
-      title       = ?,
-      excerpt     = ?,
-      content     = ?,
-      featured_image = ?,
-      category_id   = ?,
-      category_name = ?,
-      category_slug = ?,
-      category_color = ?,
-      location_tag  = ?,
-      is_breaking   = ?,
-      is_hero       = ?,
-      is_video_story = ?
-    WHERE id = ?
-  `).run(
-    data.title     ?? existing.title,
-    data.excerpt   ?? existing.excerpt,
-    data.content   ?? existing.content,
-    data.featured_image ?? existing.featured_image,
-    category.id,
-    category.name,
-    category.slug,
-    category.color,
-    data.location_tag ?? existing.location_tag,
-    data.is_breaking !== undefined ? (data.is_breaking ? 1 : 0) : existing.is_breaking,
-    data.is_hero     !== undefined ? (data.is_hero     ? 1 : 0) : existing.is_hero,
-    data.is_video_story !== undefined ? (data.is_video_story ? 1 : 0) : existing.is_video_story,
-    String(id)
-  );
+  await supabase.from('articles').update({
+    title: data.title ?? existing.title,
+    excerpt: data.excerpt ?? existing.excerpt,
+    content: data.content ?? existing.content,
+    featured_image: data.featured_image ?? existing.featured_image,
+    category_id: category.id,
+    category_name: category.name,
+    category_slug: category.slug,
+    category_color: category.color,
+    location_tag: data.location_tag ?? existing.location_tag,
+    is_breaking: data.is_breaking !== undefined ? (data.is_breaking ? 1 : 0) : existing.is_breaking,
+    is_hero: data.is_hero !== undefined ? (data.is_hero ? 1 : 0) : existing.is_hero,
+    is_video_story: data.is_video_story !== undefined ? (data.is_video_story ? 1 : 0) : existing.is_video_story,
+  }).eq('id', String(id));
 
-  const updated = db.prepare('SELECT * FROM articles WHERE id = ?').get(String(id)) as any;
+  const { data: updated } = await supabase.from('articles').select('*').eq('id', String(id)).single();
+  if (!updated) return null;
   return {
     ...updated,
     category: { id: updated.category_id, name: updated.category_name, slug: updated.category_slug, color: updated.category_color },
-    author:   { id: updated.author_id,   name: updated.author_name,   designation: updated.author_role, avatar_url: updated.author_avatar },
+    author: { id: updated.author_id, name: updated.author_name, designation: updated.author_role, avatar_url: updated.author_avatar },
     is_breaking: !!updated.is_breaking,
-    is_hero:     !!updated.is_hero,
+    is_hero: !!updated.is_hero,
     is_video_story: !!updated.is_video_story,
   };
 }
 
 export async function deleteArticleDb(id: number | string): Promise<boolean> {
-  const db = getDb();
-  const info = db.prepare('DELETE FROM articles WHERE id = ?').run(String(id));
-  return info.changes > 0;
+  const { error } = await supabase.from('articles').delete().eq('id', String(id));
+  return !error;
 }
 
 export async function getBroadcastStateDb(): Promise<BroadcastState> {
-  const db = getDb();
-  const row = db.prepare('SELECT * FROM broadcast_state WHERE id = 1').get();
-  if (!row) return mockBroadcastState;
+  const { data, error } = await supabase.from('broadcast_state').select('*').eq('id', 1).single();
+  if (error || !data) return mockBroadcastState;
 
+  const row = data;
   return {
     channel_name: 'Radio Unity FM Uganda',
     stream_url_hls: row.stream_url_hls,
@@ -407,7 +208,6 @@ export async function getBroadcastStateDb(): Promise<BroadcastState> {
 }
 
 export async function updateBroadcastStateDb(state: Partial<BroadcastState>): Promise<BroadcastState> {
-  const db = getDb();
   const current = await getBroadcastStateDb();
   const updated = { 
     ...current, 
@@ -416,53 +216,31 @@ export async function updateBroadcastStateDb(state: Partial<BroadcastState>): Pr
     up_next: { ...current.up_next, ...(state.up_next || {}) }
   };
 
-  // Ensure columns exist in SQLite (safe migration if table exists)
-  try { db.exec('ALTER TABLE broadcast_state ADD COLUMN is_live INTEGER DEFAULT 1'); } catch (e) {}
-    try { db.exec('ALTER TABLE broadcast_state ADD COLUMN now_playing_start_time TEXT DEFAULT "06:00"'); } catch (e) {}
-  try { db.exec('ALTER TABLE broadcast_state ADD COLUMN now_playing_end_time TEXT DEFAULT "09:00"'); } catch (e) {}
-  try { db.exec('ALTER TABLE broadcast_state ADD COLUMN up_next_title TEXT DEFAULT "Lango Agro Focus & Commodity Ticker"'); } catch (e) {}
-  try { db.exec('ALTER TABLE broadcast_state ADD COLUMN up_next_time TEXT DEFAULT "09:00 - 10:30"'); } catch (e) {}
-  try { db.exec('ALTER TABLE broadcast_state ADD COLUMN up_next_presenter TEXT DEFAULT "Denis Ogwang"'); } catch (e) {}
-
-  db.prepare(`
-    UPDATE broadcast_state SET 
-      stream_url_hls = ?, 
-      stream_url_youtube = ?, 
-      is_emergency_slate = ?, 
-      now_playing_title = ?, 
-      now_playing_presenter = ?,
-      now_playing_start_time = ?,
-      now_playing_end_time = ?,
-      up_next_title = ?,
-      up_next_time = ?,
-      up_next_presenter = ?
-    WHERE id = 1
-  `).run(
-    updated.stream_url_hls,
-    updated.stream_url_youtube,
-    updated.is_emergency_slate ? 1 : 0,
-    updated.now_playing.title,
-    updated.now_playing.presenter,
-    updated.now_playing.start_time,
-    updated.now_playing.end_time,
-    updated.up_next.title,
-    updated.up_next.time,
-    updated.up_next.presenter || ''
-  );
+  await supabase.from('broadcast_state').update({
+    stream_url_hls: updated.stream_url_hls,
+    stream_url_youtube: updated.stream_url_youtube,
+    is_emergency_slate: updated.is_emergency_slate ? 1 : 0,
+    now_playing_title: updated.now_playing.title,
+    now_playing_presenter: updated.now_playing.presenter,
+    now_playing_start_time: updated.now_playing.start_time,
+    now_playing_end_time: updated.now_playing.end_time,
+    up_next_title: updated.up_next.title,
+    up_next_time: updated.up_next.time,
+    up_next_presenter: updated.up_next.presenter || ''
+  }).eq('id', 1);
 
   return updated;
 }
 
 export async function getScheduleScheduleDb(day?: string): Promise<ScheduleProgram[]> {
-  const db = getDb();
-  let query = 'SELECT * FROM Schedule_schedule';
-  const args: any[] = [];
+  let query = supabase.from('Schedule_schedule').select('*');
   if (day) {
-    query += ' WHERE day_of_week = ?';
-    args.push(day);
+    query = query.eq('day_of_week', day);
   }
-  const rows = db.prepare(query).all(...args);
-  return rows.map((r: any) => ({
+  const { data, error } = await query;
+  if (error || !data) return [];
+  
+  return data.map((r: any) => ({
     id: isNaN(Number(r.id)) ? r.id : Number(r.id),
     show_name: r.show_name,
     description: r.description,
@@ -479,36 +257,21 @@ export async function getScheduleScheduleDb(day?: string): Promise<ScheduleProgr
 }
 
 export async function saveScheduleProgramDb(program: Partial<ScheduleProgram>): Promise<ScheduleProgram> {
-  const db = getDb();
   const id = program.id ? String(program.id) : `Schedule-${Date.now()}`;
   
-  db.prepare(`
-    INSERT INTO Schedule_schedule (id, show_name, description, start_time, end_time, day_of_week, presenter_name, category, is_featured, banner_image, presenter_image)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ON CONFLICT(id) DO UPDATE SET
-      show_name      = excluded.show_name,
-      description    = excluded.description,
-      start_time     = excluded.start_time,
-      end_time       = excluded.end_time,
-      day_of_week    = excluded.day_of_week,
-      presenter_name = excluded.presenter_name,
-      category       = excluded.category,
-      is_featured    = excluded.is_featured,
-      banner_image   = excluded.banner_image,
-      presenter_image = excluded.presenter_image
-  `).run(
+  await supabase.from('Schedule_schedule').upsert({
     id,
-    program.show_name || 'Unity Broadcast',
-    program.description || '',
-    program.start_time || '06:00',
-    program.end_time || '09:00',
-    program.day_of_week || 'Monday',
-    program.presenter_name || 'Unity Newsroom',
-    program.category || 'News & Current Affairs',
-    (program as any).is_featured ? 1 : 0,
-    (program as any).banner_image || null,
-    (program as any).presenter_image || null
-  );
+    show_name: program.show_name || 'Unity Broadcast',
+    description: program.description || '',
+    start_time: program.start_time || '06:00',
+    end_time: program.end_time || '09:00',
+    day_of_week: program.day_of_week || 'Monday',
+    presenter_name: program.presenter_name || 'Unity Newsroom',
+    category: program.category || 'News & Current Affairs',
+    is_featured: (program as any).is_featured ? 1 : 0,
+    banner_image: (program as any).banner_image || null,
+    presenter_image: (program as any).presenter_image || null
+  }, { onConflict: 'id' });
 
   return {
     id: isNaN(Number(id)) ? (id as any) : Number(id),
@@ -526,15 +289,10 @@ export async function saveScheduleProgramDb(program: Partial<ScheduleProgram>): 
 }
 
 export async function deleteScheduleProgramDb(id: string | number): Promise<boolean> {
-  const db = getDb();
-  const info = db.prepare('DELETE FROM Schedule_schedule WHERE id = ?').run(String(id));
-  return info.changes > 0;
+  const { error } = await supabase.from('Schedule_schedule').delete().eq('id', String(id));
+  return !error;
 }
 
-
-
-import crypto from 'crypto';
-import { getServerSession } from './auth-server';
 
 const ENCRYPTION_KEY = process.env.WHISTLEBLOWER_ENCRYPTION_KEY
   ? Buffer.from(process.env.WHISTLEBLOWER_ENCRYPTION_KEY.slice(0, 64), 'hex')
@@ -566,9 +324,6 @@ function decryptAES256GCM(cipherText: string): string {
   }
 }
 
-import fs from 'fs';
-import path from 'path';
-
 export async function createTipDb(formData: FormData): Promise<{ success: boolean; reference: string; message: string }> {
   const topic = formData.get('topic') as string;
   const details = formData.get('details') as string;
@@ -596,7 +351,6 @@ export async function createTipDb(formData: FormData): Promise<{ success: boolea
     }
   }
 
-  const db = getDb();
   const id = Date.now().toString();
   const reference = 'UTV-' + Math.random().toString(36).substring(2, 7).toUpperCase();
 
@@ -606,19 +360,16 @@ export async function createTipDb(formData: FormData): Promise<{ success: boolea
   const encryptedContact = phone_or_whatsapp ? encryptAES256GCM(phone_or_whatsapp) : '';
   const encryptedFiles = savedFilePaths.length > 0 ? encryptAES256GCM(JSON.stringify(savedFilePaths)) : '';
 
-  db.prepare(`
-    INSERT INTO tips (id, reference, topic, details, district, phone_or_whatsapp, file_paths, created_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  await supabase.from('tips').insert({
     id,
     reference,
-    encryptedTopic,
-    encryptedDetails,
+    topic: encryptedTopic,
+    details: encryptedDetails,
     district,
-    encryptedContact,
-    encryptedFiles,
-    new Date().toISOString()
-  );
+    phone_or_whatsapp: encryptedContact,
+    file_paths: encryptedFiles,
+    created_at: new Date().toISOString()
+  });
 
   return {
     success: true,
@@ -634,11 +385,11 @@ export async function getTipsDb(): Promise<any[]> {
     return [];
   }
 
-  const db = getDb();
-  const rows = db.prepare('SELECT * FROM tips ORDER BY created_at DESC').all();
+  const { data, error } = await supabase.from('tips').select('*').order('created_at', { ascending: false });
+  if (error || !data) return [];
   
   // Decrypt on the fly for authorized editors
-  return rows.map((r: any) => {
+  return data.map((r: any) => {
     let filePaths = [];
     if (r.file_paths) {
       try {
@@ -660,9 +411,6 @@ export async function getTipsDb(): Promise<any[]> {
   });
 }
 
-// ----------------------------------------------------
-// Media Upload (Newsroom)
-// ----------------------------------------------------
 export async function uploadNewsMediaDb(formData: FormData): Promise<{ success: boolean; url?: string; error?: string }> {
   try {
     const file = formData.get('file') as File;
@@ -688,26 +436,25 @@ export async function uploadNewsMediaDb(formData: FormData): Promise<{ success: 
   }
 }
 
-// ----------------------------------------------------
-// RTMP Stream Keys & Ingest Webhook Validation
-// ----------------------------------------------------
-
 export async function generateStreamKeyDb(label: string = 'Master Studio Ingest (vMix/OBS)'): Promise<{ success: boolean; streamKey: string; rtmpUrl: string }> {
   const session = await getServerSession();
   if (!session || !['super_admin', 'producer'].includes(session.role)) {
     throw new Error('Access denied: Producer or SuperAdmin credentials required to generate stream keys.');
   }
 
-  const db = getDb();
   const id = Date.now().toString();
   const randomHex = crypto.randomBytes(6).toString('hex');
   const streamKey = `live_utv_${randomHex}`;
   const now = new Date().toISOString();
 
-  db.prepare(`
-    INSERT INTO stream_keys (id, stream_key, label, is_active, created_at, last_used_at)
-    VALUES (?, ?, ?, 1, ?, NULL)
-  `).run(id, streamKey, label, now);
+  await supabase.from('stream_keys').insert({
+    id,
+    stream_key: streamKey,
+    label,
+    is_active: 1,
+    created_at: now,
+    last_used_at: null
+  });
 
   const rtmpHost = process.env.NEXT_PUBLIC_RTMP_HOST || 'stream.radiounity.ug';
 
@@ -719,17 +466,20 @@ export async function generateStreamKeyDb(label: string = 'Master Studio Ingest 
 }
 
 export async function getStreamKeysDb(): Promise<any[]> {
-  const db = getDb();
-  const count = db.prepare('SELECT COUNT(*) as count FROM stream_keys').get().count;
-  if (count === 0) {
-    // Seed default master key
-    db.prepare(`
-      INSERT INTO stream_keys (id, stream_key, label, is_active, created_at)
-      VALUES (?, ?, ?, 1, ?)
-    `).run('1', 'live_utv_lira2026', 'Primary MCR Satellite Link', new Date().toISOString());
+  const { data: allKeys } = await supabase.from('stream_keys').select('*').order('created_at', { ascending: false });
+  if (!allKeys || allKeys.length === 0) {
+    await supabase.from('stream_keys').insert({
+      id: '1',
+      stream_key: 'live_utv_lira2026',
+      label: 'Primary MCR Satellite Link',
+      is_active: 1,
+      created_at: new Date().toISOString()
+    });
+    const { data: newKeys } = await supabase.from('stream_keys').select('*').order('created_at', { ascending: false });
+    return newKeys || [];
   }
 
-  return db.prepare('SELECT * FROM stream_keys ORDER BY created_at DESC').all();
+  return allKeys;
 }
 
 export async function revokeStreamKeyDb(streamKey: string): Promise<boolean> {
@@ -738,89 +488,85 @@ export async function revokeStreamKeyDb(streamKey: string): Promise<boolean> {
     throw new Error('Access denied: Producer credentials required.');
   }
 
-  const db = getDb();
-  db.prepare('UPDATE stream_keys SET is_active = 0 WHERE stream_key = ?').run(streamKey);
-  return true;
+  const { error } = await supabase.from('stream_keys').update({ is_active: 0 }).eq('stream_key', streamKey);
+  return !error;
 }
 
 export async function validateStreamKeyDb(streamKey: string): Promise<boolean> {
   if (!streamKey) return false;
-  const db = getDb();
-  const keyRecord = db.prepare('SELECT * FROM stream_keys WHERE stream_key = ? AND is_active = 1').get(streamKey);
   
-  if (keyRecord) {
+  const { data } = await supabase.from('stream_keys').select('*').eq('stream_key', streamKey).eq('is_active', 1).single();
+  
+  if (data) {
     // Update last used timestamp
-    db.prepare('UPDATE stream_keys SET last_used_at = ? WHERE stream_key = ?').run(new Date().toISOString(), streamKey);
+    await supabase.from('stream_keys').update({ last_used_at: new Date().toISOString() }).eq('stream_key', streamKey);
     return true;
   }
   return false;
 }
 
-
-// ==========================================
-// LIVE BLOG ACTIONS
-// ==========================================
-
 export async function getLiveBlogsDb() {
-  const db = getDb();
-  const blogs = db.prepare('SELECT * FROM live_blogs ORDER BY is_active DESC, created_at DESC').all();
-  return blogs;
+  const { data } = await supabase.from('live_blogs').select('*').order('is_active', { ascending: false }).order('created_at', { ascending: false });
+  return data || [];
 }
 
 export async function getLiveBlogUpdatesDb(blogId: number) {
-  const db = getDb();
-  return db.prepare('SELECT * FROM live_blog_updates WHERE live_blog_id = ? ORDER BY published_at DESC').all(blogId);
+  const { data } = await supabase.from('live_blog_updates').select('*').eq('live_blog_id', blogId).order('published_at', { ascending: false });
+  return data || [];
 }
 
 export async function createLiveBlogDb(title: string, summary: string, location: string) {
   const session = await getServerSession();
   if (!session) throw new Error('Unauthorized');
 
-  const db = getDb();
-  const result = db.prepare(`
-    INSERT INTO live_blogs (title, summary, event_location, is_active)
-    VALUES (?, ?, ?, 1)
-  `).run(title, summary, location);
+  const { data } = await supabase.from('live_blogs').insert({
+    title,
+    summary,
+    event_location: location,
+    is_active: 1
+  }).select('id').single();
 
-  return result.lastInsertRowid;
+  return data?.id;
 }
 
 export async function toggleLiveBlogStatusDb(blogId: number, isActive: boolean) {
   const session = await getServerSession();
   if (!session) throw new Error('Unauthorized');
 
-  const db = getDb();
-  db.prepare('UPDATE live_blogs SET is_active = ? WHERE id = ?').run(isActive ? 1 : 0, blogId);
-  return true;
+  const { error } = await supabase.from('live_blogs').update({ is_active: isActive ? 1 : 0 }).eq('id', blogId);
+  return !error;
 }
 
 export async function addLiveBlogUpdateDb(blogId: number, content: string, isKeyEvent: boolean) {
   const session = await getServerSession();
   if (!session) throw new Error('Unauthorized');
 
-  const db = getDb();
-  const result = db.prepare(`
-    INSERT INTO live_blog_updates (live_blog_id, author_name, author_role, content, is_key_event)
-    VALUES (?, ?, ?, ?, ?)
-  `).run(blogId, session.name, session.designation || session.role, content, isKeyEvent ? 1 : 0);
+  const { data } = await supabase.from('live_blog_updates').insert({
+    live_blog_id: blogId,
+    author_name: session.name,
+    author_role: session.designation || session.role,
+    content,
+    is_key_event: isKeyEvent ? 1 : 0
+  }).select('*').single();
 
-  return db.prepare('SELECT * FROM live_blog_updates WHERE id = ?').get(result.lastInsertRowid);
+  return data;
 }
 
 export async function deleteLiveBlogUpdateDb(updateId: number) {
   const session = await getServerSession();
   if (!session) throw new Error('Unauthorized');
 
-  const db = getDb();
-  db.prepare('DELETE FROM live_blog_updates WHERE id = ?').run(updateId);
-  return true;
+  const { error } = await supabase.from('live_blog_updates').delete().eq('id', updateId);
+  return !error;
 }
 
 export async function updateLiveBlogUpdateDb(updateId: number, content: string, isKeyEvent: boolean) {
   const session = await getServerSession();
   if (!session) throw new Error('Unauthorized');
 
-  const db = getDb();
-  db.prepare('UPDATE live_blog_updates SET content = ?, is_key_event = ? WHERE id = ?').run(content, isKeyEvent ? 1 : 0, updateId);
-  return true;
+  const { error } = await supabase.from('live_blog_updates').update({
+    content,
+    is_key_event: isKeyEvent ? 1 : 0
+  }).eq('id', updateId);
+  return !error;
 }
