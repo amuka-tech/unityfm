@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Radio, Mic, Signal, Play, Square, Save, ExternalLink } from 'lucide-react';
+import { Radio, Mic, Signal, Play, Square, Save, ExternalLink, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
+import { getScheduleScheduleDb } from '@/lib/server-actions';
 
 export function RadioStudioDesk() {
   const [isOnAir, setIsOnAir] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const streamUrl = 'https://radio.garden/api/ara/content/listen/LHckS4Xk/channel.mp3';
 
   const [nowPlaying, setNowPlaying] = useState({
@@ -21,6 +23,38 @@ export function RadioStudioDesk() {
       setIsSaving(false);
       alert('Now Playing info updated!');
     }, 800);
+  };
+
+  const handleAutoSync = async () => {
+    setIsSyncing(true);
+    try {
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const now = new Date();
+      const currentDay = days[now.getDay()];
+      
+      const currentTimeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+      const schedule = await getScheduleScheduleDb(currentDay);
+      
+      const currentProgram = schedule.find(prog => {
+        return prog.start_time <= currentTimeStr && prog.end_time >= currentTimeStr;
+      });
+
+      if (currentProgram) {
+        setNowPlaying({
+          showName: currentProgram.show_name,
+          presenterName: currentProgram.presenter_name || 'Unity Staff',
+          description: currentProgram.description || currentProgram.category || ''
+        });
+        alert(`Successfully synced with: ${currentProgram.show_name}`);
+      } else {
+        alert('No scheduled program found for the current time.');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Failed to sync with EPG.');
+    }
+    setIsSyncing(false);
   };
 
   return (
@@ -113,9 +147,19 @@ export function RadioStudioDesk() {
         {/* Now Playing Form */}
         <div className="lg:col-span-2">
           <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 h-full">
-            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-6 flex items-center gap-2">
-              <Play className="w-4 h-4" /> Now Playing Metadata
-            </h3>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider flex items-center gap-2">
+                <Play className="w-4 h-4" /> Now Playing Metadata
+              </h3>
+              <button 
+                onClick={handleAutoSync}
+                disabled={isSyncing}
+                className="flex items-center gap-2 text-sm font-medium text-brand-crimson hover:text-red-700 disabled:opacity-50"
+              >
+                <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
+                Auto-Fill from EPG
+              </button>
+            </div>
             
             <div className="space-y-5">
               <div>
