@@ -609,3 +609,23 @@ export async function deleteCommodityDb(id: number) {
   const { error } = await supabase.from('agri_commodities').delete().eq('id', id);
   return !error;
 }
+
+export async function getUsersDb() {
+  const session = await getServerSession();
+  if (!session || session.role !== 'super_admin') throw new Error('Unauthorized');
+
+  const { data, error } = await supabase.from('users').select('id, name, email, role, bureau, designation, avatar_url, bio, can_impersonate').order('id', { ascending: true });
+  if (error) {
+    console.error('Error fetching users:', error);
+    return [];
+  }
+  return data || [];
+}
+
+export async function updateUserProfileDb(userId: number, updates: any) {
+  const session = await getServerSession();
+  if (!session || session.role !== 'super_admin') throw new Error('Unauthorized');
+
+  const { error } = await supabase.from('users').update(updates).eq('id', userId);
+  return !error;
+}

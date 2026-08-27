@@ -1,11 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Settings, 
-  Server
+  Server,
+  Users,
+  Edit2,
+  Check,
+  X
 } from 'lucide-react';
-import { Role } from '@/types';
+import { Role, User } from '@/types';
+import { getUsersDb, updateUserProfileDb } from '@/lib/server-actions';
 
 interface RolesSettingsDeskProps {
   currentRole: Role | null;
@@ -18,6 +23,30 @@ export function RolesSettingsDesk({
   onSetRole,
   notify,
 }: RolesSettingsDeskProps) {
+  const [users, setUsers] = useState<User[]>([]);
+  const [editingUserId, setEditingUserId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<Partial<User>>({});
+  
+  useEffect(() => {
+    if (currentRole === 'super_admin' || currentRole === 'managing_director') {
+      getUsersDb().then(setUsers).catch(console.error);
+    }
+  }, [currentRole]);
+
+  const handleEditUser = (u: User) => {
+    setEditingUserId(u.id);
+    setEditForm({ name: u.name, designation: u.designation, bureau: u.bureau, role: u.role });
+  };
+
+  const handleSaveUser = async () => {
+    if (editingUserId) {
+      await updateUserProfileDb(editingUserId, editForm);
+      notify('User profile updated successfully!');
+      setEditingUserId(null);
+      getUsersDb().then(setUsers).catch(console.error);
+    }
+  };
+
   const roles: { role: Role; title: string; desc: string; permissions: string[] }[] = [
     {
       role: 'super_admin',
@@ -113,6 +142,88 @@ export function RolesSettingsDesk({
           );
         })}
       </div>
+
+      {/* Staff Directory Table */}
+      {(currentRole === 'super_admin' || currentRole === 'managing_director') && (
+        <div className="bg-white rounded-lg p-6 border border-gray-200 space-y-4">
+          <h3 className="text-sm font-semibold text-gray-900 flex items-center space-x-2">
+            <Users className="w-4 h-4 text-gray-500" />
+            <span>Staff & Access Management</span>
+          </h3>
+          
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-gray-200 bg-gray-50 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">Role</th>
+                  <th className="px-4 py-3">Bureau / Title</th>
+                  <th className="px-4 py-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 text-sm">
+                {users.map(u => (
+                  <tr key={u.id} className="hover:bg-gray-50/50">
+                    <td className="px-4 py-3">
+                      {editingUserId === u.id ? (
+                        <input type="text" value={editForm.name || ''} onChange={e => setEditForm({...editForm, name: e.target.value})} className="border border-gray-300 rounded px-2 py-1 w-full text-sm" />
+                      ) : (
+                        <span className="font-semibold text-gray-900">{u.name}</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-gray-500">{u.email}</td>
+                    <td className="px-4 py-3">
+                      {editingUserId === u.id ? (
+                        <select value={editForm.role || ''} onChange={e => setEditForm({...editForm, role: e.target.value as Role})} className="border border-gray-300 rounded px-2 py-1 text-sm bg-white">
+                          <option value="super_admin">Super Admin</option>
+                          <option value="managing_director">Managing Director</option>
+                          <option value="news_editor">News Editor</option>
+                          <option value="broadcast_director">Broadcast Director</option>
+                          <option value="field_reporter">Field Reporter</option>
+                        </select>
+                      ) : (
+                        <span className={`px-2 py-1 rounded text-xs font-semibold ${u.role === 'super_admin' ? 'bg-red-50 text-red-700' : 'bg-gray-100 text-gray-700'}`}>
+                          {u.role.replace('_', ' ').toUpperCase()}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-gray-500">
+                      {editingUserId === u.id ? (
+                        <div className="space-y-1">
+                          <input type="text" placeholder="Title" value={editForm.designation || ''} onChange={e => setEditForm({...editForm, designation: e.target.value})} className="border border-gray-300 rounded px-2 py-1 w-full text-sm" />
+                          <input type="text" placeholder="Bureau" value={editForm.bureau || ''} onChange={e => setEditForm({...editForm, bureau: e.target.value})} className="border border-gray-300 rounded px-2 py-1 w-full text-sm" />
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="font-medium text-gray-800">{u.designation}</div>
+                          <div className="text-xs">{u.bureau}</div>
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      {editingUserId === u.id ? (
+                        <div className="flex justify-end gap-2">
+                          <button onClick={handleSaveUser} className="p-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded">
+                            <Check className="w-4 h-4" />
+                          </button>
+                          <button onClick={() => setEditingUserId(null)} className="p-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded">
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ) : (
+                        <button onClick={() => handleEditUser(u)} className="p-1.5 text-gray-400 hover:text-brand-crimson hover:bg-red-50 rounded transition-colors">
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* System Infrastructure Telemetry Card */}
       <div className="bg-white rounded-lg p-6 border border-gray-200 space-y-4">
