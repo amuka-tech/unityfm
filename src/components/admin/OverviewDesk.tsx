@@ -18,10 +18,10 @@ import Link from 'next/link';
 export function OverviewDesk({ articles, tips, onNavigateTab }: any) {
   
   const stats = [
-    { label: 'Published Articles', value: articles.length, icon: Newspaper, trend: '+12%', color: 'text-blue-600', bg: 'bg-blue-50' },
+    { label: 'Published Articles', value: articles?.length || 0, icon: Newspaper, trend: 'Total', color: 'text-blue-600', bg: 'bg-blue-50' },
     { label: 'On Air Status', value: 'LIVE', icon: Mic, trend: '97.7 FM', color: 'text-brand-crimson', bg: 'bg-red-50' },
-    { label: 'Podcast Downloads', value: '24.5k', icon: Headphones, trend: '+18%', color: 'text-green-600', bg: 'bg-green-50' },
-    { label: 'Active Leaks', value: tips.length, icon: ShieldAlert, trend: 'Needs Review', color: 'text-orange-600', bg: 'bg-orange-50' },
+    { label: 'Live Listeners', value: '0', icon: Headphones, trend: 'Streaming now', color: 'text-green-600', bg: 'bg-green-50' },
+    { label: 'Active Leaks', value: tips?.length || 0, icon: ShieldAlert, trend: 'Needs Review', color: 'text-orange-600', bg: 'bg-orange-50' },
   ];
 
   return (
