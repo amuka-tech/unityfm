@@ -20,7 +20,7 @@ const mockUsersByRole: Record<Role, User> = {
   managing_director: {
     id: 1,
     name: 'Chief Managing Editor',
-    email: 'admin@unitytv.ug',
+    email: 'admin@radiounity.ug',
     role: 'managing_director',
     bureau: 'Lira City Head Office',
     designation: 'Managing Director & Station Head',
@@ -31,7 +31,7 @@ const mockUsersByRole: Record<Role, User> = {
   super_admin: {
     id: 2,
     name: 'System Admin',
-    email: 'sysadmin@unitytv.ug',
+    email: 'sysadmin@radiounity.ug',
     role: 'super_admin',
     bureau: 'Lira City Hub',
     designation: 'IT & Security Administrator',
@@ -42,7 +42,7 @@ const mockUsersByRole: Record<Role, User> = {
   news_editor: {
     id: 3,
     name: 'Sarah Awor',
-    email: 'editor@unitytv.ug',
+    email: 'editor@radiounity.ug',
     role: 'news_editor',
     bureau: 'Lira City Hub',
     designation: 'Senior News Editor',
@@ -52,7 +52,7 @@ const mockUsersByRole: Record<Role, User> = {
   broadcast_director: {
     id: 4,
     name: 'Patrick Okot',
-    email: 'producer@unitytv.ug',
+    email: 'producer@radiounity.ug',
     role: 'broadcast_director',
     bureau: 'Broadcast Master Control',
     designation: 'Executive Broadcast Producer',
@@ -62,7 +62,7 @@ const mockUsersByRole: Record<Role, User> = {
   field_reporter: {
     id: 5,
     name: 'Moses Okello',
-    email: 'reporter@unitytv.ug',
+    email: 'reporter@radiounity.ug',
     role: 'field_reporter',
     bureau: 'Northern Uganda Agribusiness Desk',
     designation: 'Field Correspondent',

@@ -21,11 +21,11 @@ export const metadata: Metadata = {
   description: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda. Available on Youtube and Online Stream on our website with breaking news, agribusiness, and cultural programming.',
   keywords: ['Radio Unity FM 97.7', 'Broadcasting Across Northern Uganda', 'Lira City News', 'Lango Sub-region', 'Dokolo', 'Apac', 'Oyam', 'FUFA Drum Lango', 'Shea Butter Uganda', 'Live Radio Lira'],
   authors: [{ name: 'Radio Unity FM Editorial Desk' }],
-  metadataBase: new URL('https://unitytv.ug'),
+  metadataBase: new URL('https://radiounity.ug'),
   openGraph: {
     title: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda',
     description: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda. Available on Youtube and Online Stream on our website.',
-    url: 'https://unitytv.ug',
+    url: 'https://radiounity.ug',
     siteName: 'Radio Unity FM 97.7',
     locale: 'en_UG',
     type: 'website',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Radio Unity FM 97.7 — Broadcasting Across Northern Uganda',
     description: 'Available on Youtube and Online Stream on our website.',
-    site: '@UnityTVUganda',
+    site: '@RadioUnityUganda',
   },
   icons: {
     icon: [

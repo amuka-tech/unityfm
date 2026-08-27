@@ -1,13 +1,13 @@
-﻿# 📺 Unity TV Uganda — Digital Television & News Publication Portal
+# ?? Radio Unity Uganda � Digital Television & News Publication Portal
 
 > **The Authoritative Voice of Northern Uganda and Lira City**  
 > Digital-First Regional Broadcaster, Live Master Control, Editorial Newsroom CMS, and Low-Bandwidth 3G Optimization.
 
 ---
 
-## 📌 Executive Summary & Core Objectives
+## ?? Executive Summary & Core Objectives
 
-**Unity TV** is a digital-first television station and news publication based in **Lira City, Uganda**, serving the Lango sub-region (Dokolo, Alebtong, Apac, Oyam, Kole, Otuke, Kwania, Amolatar), Northern Uganda, and the nation at large.
+**Radio Unity** is a digital-first television station and news publication based in **Lira City, Uganda**, serving the Lango sub-region (Dokolo, Alebtong, Apac, Oyam, Kole, Otuke, Kwania, Amolatar), Northern Uganda, and the nation at large.
 
 ### Strategic Platform Goals
 1. **Regional Media Leadership**: Deliver trusted, verified reporting on municipal governance, agricultural supply chains (shea butter, coffee, soya, grain), sports (*FUFA Drum Lango Province*), and cultural heritage.
@@ -20,9 +20,9 @@
 
 ---
 
-## 🎨 Visual Identity & Design System
+## ?? Visual Identity & Design System
 
-Derived directly from the official **Unity TV Logo** (`/public/unity-tv-logo.png`):
+Derived directly from the official **Radio Unity Logo** (`/public/radio-unity-logo.png`):
 
 | Token | Hex Code | Purpose |
 | :--- | :--- | :--- |
@@ -33,7 +33,7 @@ Derived directly from the official **Unity TV Logo** (`/public/unity-tv-logo.png
 
 ---
 
-## ⚡ Tech Stack
+## ? Tech Stack
 
 - **Framework**: [Next.js 15](https://nextjs.org/) (App Router, React 19, Server Actions)
 - **Language**: TypeScript 5.x
@@ -47,61 +47,61 @@ Derived directly from the official **Unity TV Logo** (`/public/unity-tv-logo.png
 
 ---
 
-## 📂 Project Architecture & Directory Map
+## ?? Project Architecture & Directory Map
 
 ```text
-Unitytvsite/
-├── .github/
-│   └── workflows/
-│       └── ci.yml                 # Automated TypeScript typecheck & production build pipeline
-├── public/
-│   ├── unity-tv-logo.png          # Official brand logo
-│   ├── manifest.json              # Progressive Web App (PWA) manifest
-│   └── favicon.ico
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx             # Root layout with TopUtilityBar, Header, Footer, DPPA Consent
-│   │   ├── page.tsx               # Bento-grid magazine homepage (Soledad Tech style)
-│   │   ├── admin/page.tsx         # Newsroom CMS & Master Control Terminal
-│   │   ├── live/page.tsx          # Live TV streaming player & emergency slate failover
-│   │   ├── videos/page.tsx        # YouTube stream center & master theater player
-│   │   ├── news/[category]/       # Category archive feeds
-│   │   │   └── [slug]/page.tsx    # Article detail layout (Nile Post format)
-│   │   ├── shows/page.tsx         # EPG television broadcast schedules
-│   │   ├── whistleblower/page.tsx # Encrypted citizen tip submission portal
-│   │   ├── politics/page.tsx      # Politics & governance desk
-│   │   ├── business/page.tsx      # Agribusiness & commodity markets
-│   │   ├── sports/page.tsx        # Sports & FUFA Drum coverage
-│   │   └── lifestyle/page.tsx     # Culture & lifestyle desk
-│   ├── components/
-│   │   ├── ads/                   # AdSlot display monetization engine
-│   │   ├── article/               # ArticleBody, ShareButtons, Audio Narration
-│   │   ├── home/                  # HeroSection (Bento), LatestFeed, VideoShowcase
-│   │   ├── layout/                # Header, Footer, TopUtilityBar, CookieConsentBanner
-│   │   ├── live-blog/             # Live timeline updates
-│   │   └── videos/                # VideosHubClient, LiteYouTubeEmbed (@977unityfm gallery)
-│   ├── context/
-│   │   ├── AuthContext.tsx        # RBAC user session state & client synchronization
-│   │   └── DataSaverContext.tsx   # Low-bandwidth 3G data compression toggle
-│   ├── lib/
-│   │   ├── api.ts                 # Unified client/server API gateway
-│   │   ├── auth-server.ts         # Server Actions session tokens & HTTP-only cookies
-│   │   ├── server-actions.ts      # SQLite CRUD operations & AES-256 whistleblower encryption
-│   │   ├── mockData.ts            # Regional seed datasets & categories
-│   │   └── unityStreamsData.ts    # 30 curated YouTube broadcasts from @977unityfm
-│   ├── middleware.ts              # Next.js Server Middleware for route protection
-│   └── types/
-│       └── index.ts               # TypeScript domain interfaces
-├── .env.local                     # Environment secret keys (gitignored)
-├── .env.example                   # Environment configuration template
-├── unitytv.sqlite                 # Persistent SQLite database file
-├── unitytv.sqlite-wal             # Write-Ahead Log
-└── package.json
+RadioUnitysite/
++-- .github/
+�   +-- workflows/
+�       +-- ci.yml                 # Automated TypeScript typecheck & production build pipeline
++-- public/
+�   +-- radio-unity-logo.png          # Official brand logo
+�   +-- manifest.json              # Progressive Web App (PWA) manifest
+�   +-- favicon.ico
++-- src/
+�   +-- app/
+�   �   +-- layout.tsx             # Root layout with TopUtilityBar, Header, Footer, DPPA Consent
+�   �   +-- page.tsx               # Bento-grid magazine homepage (Soledad Tech style)
+�   �   +-- admin/page.tsx         # Newsroom CMS & Master Control Terminal
+�   �   +-- live/page.tsx          # Live TV streaming player & emergency slate failover
+�   �   +-- videos/page.tsx        # YouTube stream center & master theater player
+�   �   +-- news/[category]/       # Category archive feeds
+�   �   �   +-- [slug]/page.tsx    # Article detail layout (Nile Post format)
+�   �   +-- shows/page.tsx         # EPG television broadcast schedules
+�   �   +-- whistleblower/page.tsx # Encrypted citizen tip submission portal
+�   �   +-- politics/page.tsx      # Politics & governance desk
+�   �   +-- business/page.tsx      # Agribusiness & commodity markets
+�   �   +-- sports/page.tsx        # Sports & FUFA Drum coverage
+�   �   +-- lifestyle/page.tsx     # Culture & lifestyle desk
+�   +-- components/
+�   �   +-- ads/                   # AdSlot display monetization engine
+�   �   +-- article/               # ArticleBody, ShareButtons, Audio Narration
+�   �   +-- home/                  # HeroSection (Bento), LatestFeed, VideoShowcase
+�   �   +-- layout/                # Header, Footer, TopUtilityBar, CookieConsentBanner
+�   �   +-- live-blog/             # Live timeline updates
+�   �   +-- videos/                # VideosHubClient, LiteYouTubeEmbed (@977unityfm gallery)
+�   +-- context/
+�   �   +-- AuthContext.tsx        # RBAC user session state & client synchronization
+�   �   +-- DataSaverContext.tsx   # Low-bandwidth 3G data compression toggle
+�   +-- lib/
+�   �   +-- api.ts                 # Unified client/server API gateway
+�   �   +-- auth-server.ts         # Server Actions session tokens & HTTP-only cookies
+�   �   +-- server-actions.ts      # SQLite CRUD operations & AES-256 whistleblower encryption
+�   �   +-- mockData.ts            # Regional seed datasets & categories
+�   �   +-- unityStreamsData.ts    # 30 curated YouTube broadcasts from @977unityfm
+�   +-- middleware.ts              # Next.js Server Middleware for route protection
+�   +-- types/
+�       +-- index.ts               # TypeScript domain interfaces
++-- .env.local                     # Environment secret keys (gitignored)
++-- .env.example                   # Environment configuration template
++-- RadioUnity.sqlite                 # Persistent SQLite database file
++-- RadioUnity.sqlite-wal             # Write-Ahead Log
++-- package.json
 ```
 
 ---
 
-## 🚀 Core Features & Implementation Architecture
+## ?? Core Features & Implementation Architecture
 
 ### 1. Bento-Box Magazine Homepage
 - High-impact editorial grid with 6/6 edge-to-edge bento box tiles, dark gradient overlays, and watermarked trending counters (`01`, `02`, `03`).
@@ -112,7 +112,7 @@ Unitytvsite/
 
 ### 3. Nile Post Article Detail Format (`/news/[category]/[slug]`)
 - Clean 2-column editorial grid.
-- Prominent multi-platform share strip (WhatsApp, Facebook, 𝕏/Twitter, LinkedIn, Telegram, Email, Copy Link).
+- Prominent multi-platform share strip (WhatsApp, Facebook, ??/Twitter, LinkedIn, Telegram, Email, Copy Link).
 - In-Article **"Keep Reading"** bulleted story injection.
 - **"Topics You Might Like"** tag cloud.
 - Integrated text-to-speech audio reader and font scaling (`A` / `A+` / `A++`).
@@ -135,7 +135,7 @@ Unitytvsite/
 
 ---
 
-## ⚙️ Environment Variables Configuration
+## ?? Environment Variables Configuration
 
 Copy `.env.example` to `.env.local` and set your production secrets:
 
@@ -148,22 +148,22 @@ cp .env.example .env.local
 | `AUTH_SECRET` | 32-byte hexadecimal secret for signing session cookies | `9f8e7d6c...` |
 | `WHISTLEBLOWER_ENCRYPTION_KEY` | 32-byte encryption key for AES-256-GCM tips at rest | `e4d3c2b1...` |
 | `SEED_ADMIN_PASSWORD` | Initial password for demo staff accounts | `SecurePass2026!` |
-| `NEXT_PUBLIC_SITE_URL` | Public station website URL | `https://unitytv.ug` |
+| `NEXT_PUBLIC_SITE_URL` | Public station website URL | `https://RadioUnity.ug` |
 
 ---
 
-## 🔑 Default Staff Roles (Development & Staging)
+## ?? Default Staff Roles (Development & Staging)
 
 | Role | Name | Email | Default Access |
 | :--- | :--- | :--- | :--- |
-| **SuperAdmin** | Chief Managing Editor | `admin@unitytv.ug` | All Tabs (Articles, EPG, Stream Keys, Ads, Tips) |
-| **Editor** | Senior News Editor | `editor@unitytv.ug` | Articles, Live Blog, Whistleblower Inbox |
-| **Producer** | Broadcast Producer | `producer@unitytv.ug` | EPG Schedule, Stream Encoder & Emergency Slate |
-| **Reporter** | Field Correspondent | `reporter@unitytv.ug` | Field Article Creation & Drafts |
+| **SuperAdmin** | Chief Managing Editor | `admin@RadioUnity.ug` | All Tabs (Articles, EPG, Stream Keys, Ads, Tips) |
+| **Editor** | Senior News Editor | `editor@RadioUnity.ug` | Articles, Live Blog, Whistleblower Inbox |
+| **Producer** | Broadcast Producer | `producer@RadioUnity.ug` | EPG Schedule, Stream Encoder & Emergency Slate |
+| **Reporter** | Field Correspondent | `reporter@RadioUnity.ug` | Field Article Creation & Drafts |
 
 ---
 
-## 🚢 Production Deployment Playbook (VPS + PM2 + Nginx)
+## ?? Production Deployment Playbook (VPS + PM2 + Nginx)
 
 Because the platform uses a high-performance local SQLite database (`better-sqlite3` in WAL mode), hosting on a **VPS** (e.g. Ubuntu 24.04 on DigitalOcean, Linode, or Hetzner) ensures data persistence and fast local file I/O.
 
@@ -179,8 +179,8 @@ sudo npm install -g pm2
 ### 2. Clone & Build
 ```bash
 cd /var/www
-git clone https://github.com/unitytvuganda/unitytvsite.git unitytv
-cd unitytv
+git clone https://github.com/RadioUnityuganda/RadioUnitysite.git RadioUnity
+cd RadioUnity
 npm ci
 cp .env.example .env.local
 # (Edit .env.local with production secrets)
@@ -189,16 +189,16 @@ npm run build
 
 ### 3. Launch via PM2 Process Manager
 ```bash
-pm2 start npm --name "unity-tv" -- start
+pm2 start npm --name "radio-unity" -- start
 pm2 save
 pm2 startup
 ```
 
 ### 4. Configure Nginx Reverse Proxy
-Create `/etc/nginx/sites-available/unitytv`:
+Create `/etc/nginx/sites-available/RadioUnity`:
 ```nginx
 server {
-    server_name unitytv.ug www.unitytv.ug;
+    server_name RadioUnity.ug www.RadioUnity.ug;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -214,14 +214,14 @@ server {
 ```
 Enable the site and obtain a free SSL certificate:
 ```bash
-sudo ln -s /etc/nginx/sites-available/unitytv /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/RadioUnity /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d unitytv.ug -d www.unitytv.ug
+sudo certbot --nginx -d RadioUnity.ug -d www.RadioUnity.ug
 ```
 
 ---
 
-## 📈 Scalability & Database Migration Path
+## ?? Scalability & Database Migration Path
 
 For multi-region edge scaling or serverless deployment (e.g., Vercel, Cloudflare Pages), the database layer is designed for easy migration:
 1. **Turso (`@libsql/client`)**: Distributed SQLite over HTTP that works with Next.js Edge/Serverless without modifying SQL schema.
@@ -230,8 +230,8 @@ For multi-region edge scaling or serverless deployment (e.g., Vercel, Cloudflare
 
 ---
 
-## ⚖️ Legal & Regulatory Compliance
+## ?? Legal & Regulatory Compliance
 
 - **Broadcasting License**: Licensed and regulated by the **Uganda Communications Commission (UCC)**.
 - **Privacy & Data Security**: Fully compliant with the **Ugandan Data Protection and Privacy Act (DPPA) 2019**.
-- **Copyright**: © 2026 Unity TV Uganda Ltd. All Rights Reserved.
+- **Copyright**: � 2026 Radio Unity Uganda Ltd. All Rights Reserved.

@@ -296,7 +296,7 @@ export async function deleteScheduleProgramDb(id: string | number): Promise<bool
 
 const ENCRYPTION_KEY = process.env.WHISTLEBLOWER_ENCRYPTION_KEY
   ? Buffer.from(process.env.WHISTLEBLOWER_ENCRYPTION_KEY.slice(0, 64), 'hex')
-  : crypto.scryptSync('unity-tv-uganda-salt', 'salt', 32);
+  : crypto.scryptSync('radio-unity-uganda-salt', 'salt', 32);
 
 function encryptAES256GCM(plainText: string): string {
   if (!plainText) return '';

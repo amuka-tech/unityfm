@@ -22,7 +22,7 @@ export interface SessionData {
 }
 
 function hashPassword(password: string) {
-  const salt = 'unity-tv-uganda-salt';
+  const salt = 'radio-unity-uganda-salt';
   return crypto.scryptSync(password, salt, 32).toString('hex');
 }
 

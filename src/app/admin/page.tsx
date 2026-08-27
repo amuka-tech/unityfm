@@ -8,7 +8,7 @@ import { Radio, Lock, Mail, Loader2, ChevronRight, Mic, Newspaper, Shield, User 
 const STAFF_PRESETS = [
   {
     label: 'Managing Director',
-    email: 'admin@unitytv.ug',
+    email: 'admin@radiounity.ug',
     role: 'Super Admin',
     icon: Shield,
     color: 'text-red-500',
@@ -16,7 +16,7 @@ const STAFF_PRESETS = [
   },
   {
     label: 'Broadcast Director',
-    email: 'producer@unitytv.ug',
+    email: 'producer@radiounity.ug',
     role: 'MCR & Streams',
     icon: Mic,
     color: 'text-blue-500',
@@ -24,7 +24,7 @@ const STAFF_PRESETS = [
   },
   {
     label: 'News Editor',
-    email: 'editor@unitytv.ug',
+    email: 'editor@radiounity.ug',
     role: 'Breaking & News',
     icon: Newspaper,
     color: 'text-amber-500',
@@ -32,7 +32,7 @@ const STAFF_PRESETS = [
   },
   {
     label: 'Field Reporter',
-    email: 'reporter@unitytv.ug',
+    email: 'reporter@radiounity.ug',
     role: 'Publishing',
     icon: User,
     color: 'text-emerald-500',
@@ -141,7 +141,7 @@ export default function AdminPage() {
                   type="email"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
-                  placeholder="you@unitytv.ug"
+                  placeholder="you@radiounity.ug"
                   className="w-full bg-neutral-800 border border-neutral-700 rounded-xl pl-10 pr-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-brand-gold transition-colors text-sm"
                   required
                 />
