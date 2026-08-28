@@ -10,8 +10,8 @@ import {
   X
 } from 'lucide-react';
 import { Role, User } from '@/types';
-import { getUsersDb, updateUserProfileDb } from '@/lib/server-actions';
-import { createUserAction } from '@/lib/auth-server';
+import { getUsersDb, updateUserProfileDb, uploadUserAvatarAction } from '@/lib/server-actions';
+import { createUserAction, updateUserPasswordAction } from '@/lib/auth-server';
 
 interface RolesSettingsDeskProps {
   currentRole: Role | null;
@@ -27,6 +27,7 @@ export function RolesSettingsDesk({
   const [users, setUsers] = useState<User[]>([]);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<User>>({});
+  const [editPassword, setEditPassword] = useState('');
   
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [newUserForm, setNewUserForm] = useState<Partial<User>>({ role: 'field_reporter', bureau: 'Lira City Hub' });
@@ -41,14 +42,36 @@ export function RolesSettingsDesk({
   const handleEditUser = (u: User) => {
     setEditingUserId(u.id);
     setEditForm({ name: u.name, designation: u.designation, bureau: u.bureau, role: u.role });
+    setEditPassword('');
   };
 
   const handleSaveUser = async () => {
     if (editingUserId) {
       await updateUserProfileDb(editingUserId, editForm);
+      if (editPassword) {
+        await updateUserPasswordAction(editingUserId, editPassword);
+      }
       notify('User profile updated successfully!');
       setEditingUserId(null);
+      setEditPassword('');
       getUsersDb().then(setUsers).catch(console.error);
+    }
+  };
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>, userId: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    notify('Uploading avatar...');
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await uploadUserAvatarAction(userId, formData);
+    
+    if (res.success) {
+      notify('Avatar updated successfully!');
+      getUsersDb().then(setUsers).catch(console.error);
+    } else {
+      alert(`Avatar upload failed: ${res.error}`);
     }
   };
 
@@ -228,13 +251,33 @@ export function RolesSettingsDesk({
                 {users.map(u => (
                   <tr key={u.id} className="hover:bg-gray-50/50">
                     <td className="px-4 py-3">
+                      <div className="flex items-center space-x-3">
+                        <div className="relative group w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gray-100 border border-gray-200">
+                          <img src={u.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'} alt={u.name} className="w-full h-full object-cover" />
+                          {editingUserId === u.id && (
+                            <label className="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center cursor-pointer transition-all">
+                              <span className="text-[9px] font-bold text-white uppercase tracking-wider text-center px-1">Upload</span>
+                              <input type="file" className="hidden" accept="image/*" onChange={(e) => handleAvatarUpload(e, u.id!)} />
+                            </label>
+                          )}
+                        </div>
+                        {editingUserId === u.id ? (
+                          <input type="text" value={editForm.name || ''} onChange={e => setEditForm({...editForm, name: e.target.value})} className="border border-gray-300 rounded px-2 py-1 w-full text-sm" />
+                        ) : (
+                          <span className="font-semibold text-gray-900">{u.name}</span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-gray-500">
                       {editingUserId === u.id ? (
-                        <input type="text" value={editForm.name || ''} onChange={e => setEditForm({...editForm, name: e.target.value})} className="border border-gray-300 rounded px-2 py-1 w-full text-sm" />
+                        <div className="space-y-1">
+                          <div className="text-xs text-gray-400">{u.email}</div>
+                          <input type="password" placeholder="New Password (optional)" value={editPassword} onChange={e => setEditPassword(e.target.value)} className="border border-gray-300 rounded px-2 py-1 w-full text-sm" />
+                        </div>
                       ) : (
-                        <span className="font-semibold text-gray-900">{u.name}</span>
+                        u.email
                       )}
                     </td>
-                    <td className="px-4 py-3 text-gray-500">{u.email}</td>
                     <td className="px-4 py-3">
                       {editingUserId === u.id ? (
                         <select value={editForm.role || ''} onChange={e => setEditForm({...editForm, role: e.target.value as Role})} className="border border-gray-300 rounded px-2 py-1 text-sm bg-white">

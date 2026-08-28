@@ -257,3 +257,23 @@ export async function createUserAction(userData: Partial<User>, passwordPlain: s
   await logAudit(session.email, session.role, 'USER_CREATED', `Created new user: ${normalizedEmail}`);
   return { success: true };
 }
+
+export async function updateUserPasswordAction(userId: number, newPasswordPlain: string) {
+  const session = await getServerSession();
+  if (!session || session.role !== 'super_admin') {
+    throw new Error('UNAUTHORIZED: Only Super Admins can reset passwords.');
+  }
+
+  const hashedPassword = hashPassword(newPasswordPlain);
+
+  const { error } = await supabase.from('users').update({
+    password_hash: hashedPassword
+  }).eq('id', userId);
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  await logAudit(session.email, session.role, 'PASSWORD_RESET', `Reset password for user ID: ${userId}`);
+  return { success: true };
+}

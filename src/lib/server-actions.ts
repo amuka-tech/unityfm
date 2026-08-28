@@ -629,3 +629,39 @@ export async function updateUserProfileDb(userId: number, updates: any) {
   const { error } = await supabase.from('users').update(updates).eq('id', userId);
   return !error;
 }
+
+export async function uploadUserAvatarAction(userId: number, formData: FormData): Promise<{ success: boolean; avatar_url?: string; error?: string }> {
+  const session = await getServerSession();
+  if (!session || session.role !== 'super_admin') {
+    return { success: false, error: 'Unauthorized' };
+  }
+
+  const file = formData.get('file') as File;
+  if (!file || file.size === 0) {
+    return { success: false, error: 'No file provided' };
+  }
+
+  try {
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'avatars');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+    // Create a safe, unique filename
+    const safeFilename = `user-${userId}-${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+    const filePath = path.join(uploadDir, safeFilename);
+
+    fs.writeFileSync(filePath, buffer);
+    const publicUrl = `/uploads/avatars/${safeFilename}`;
+
+    // Update the database
+    const { error } = await supabase.from('users').update({ avatar_url: publicUrl }).eq('id', userId);
+    if (error) throw error;
+
+    return { success: true, avatar_url: publicUrl };
+  } catch (err: any) {
+    console.error('Avatar upload failed:', err);
+    return { success: false, error: err.message || 'Upload failed' };
+  }
+}
