@@ -107,14 +107,6 @@ export function NewsroomDesk({
     }
   };
 
-  const stockImages = [
-    { label: 'Lira Market / Business', url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1000' },
-    { label: 'Agriculture / Crops', url: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1000' },
-    { label: 'Government / Civic', url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1000' },
-    { label: 'Sports / Stadium', url: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1000' },
-    { label: 'Studio Newsroom', url: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1000' },
-  ];
-
   const handleOpenCreate = () => {
     setEditingArticle(null);
     setFormTitle('');
@@ -487,23 +479,7 @@ export function NewsroomDesk({
                           />
                         </label>
                       </div>
-                      <div className="flex flex-wrap gap-2">
-                        {stockImages.map((s, idx) => (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => setFormImage(s.url)}
-                            className={`text-[11px] px-3 py-1.5 rounded-md border whitespace-nowrap transition-colors font-medium ${
-                              formImage === s.url
-                                ? 'bg-brand-crimson text-white border-brand-crimson'
-                                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100 hover:border-gray-300'
-                            }`}
-                          >
-                            {s.label}
-                          </button>
-                        ))}
                       </div>
-                    </div>
                     {/* Live Preview Thumbnail */}
                     <div className="w-32 h-24 shrink-0 rounded-lg border border-gray-200 bg-gray-100 overflow-hidden relative shadow-inner">
                       {formImage ? (
