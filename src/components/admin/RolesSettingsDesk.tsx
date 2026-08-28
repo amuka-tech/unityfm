@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Role, User } from '@/types';
 import { getUsersDb, updateUserProfileDb } from '@/lib/server-actions';
+import { createUserAction } from '@/lib/auth-server';
 
 interface RolesSettingsDeskProps {
   currentRole: Role | null;
@@ -26,6 +27,10 @@ export function RolesSettingsDesk({
   const [users, setUsers] = useState<User[]>([]);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<User>>({});
+  
+  const [isAddingUser, setIsAddingUser] = useState(false);
+  const [newUserForm, setNewUserForm] = useState<Partial<User>>({ role: 'field_reporter', bureau: 'Lira City Hub' });
+  const [newUserPassword, setNewUserPassword] = useState('');
   
   useEffect(() => {
     if (currentRole === 'super_admin' || currentRole === 'managing_director') {
@@ -44,6 +49,24 @@ export function RolesSettingsDesk({
       notify('User profile updated successfully!');
       setEditingUserId(null);
       getUsersDb().then(setUsers).catch(console.error);
+    }
+  };
+
+  const handleCreateUser = async () => {
+    if (!newUserForm.name || !newUserForm.email || !newUserForm.role || !newUserPassword) {
+      alert('Please fill in all required fields (Name, Email, Role, Password).');
+      return;
+    }
+    
+    const res = await createUserAction(newUserForm, newUserPassword);
+    if (res.success) {
+      notify('New user created successfully!');
+      setIsAddingUser(false);
+      setNewUserForm({ role: 'field_reporter', bureau: 'Lira City Hub' });
+      setNewUserPassword('');
+      getUsersDb().then(setUsers).catch(console.error);
+    } else {
+      alert(`Error creating user: ${res.error}`);
     }
   };
 
@@ -146,10 +169,49 @@ export function RolesSettingsDesk({
       {/* Staff Directory Table */}
       {(currentRole === 'super_admin' || currentRole === 'managing_director') && (
         <div className="bg-white rounded-lg p-6 border border-gray-200 space-y-4">
-          <h3 className="text-sm font-semibold text-gray-900 flex items-center space-x-2">
-            <Users className="w-4 h-4 text-gray-500" />
-            <span>Staff & Access Management</span>
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-gray-900 flex items-center space-x-2">
+              <Users className="w-4 h-4 text-gray-500" />
+              <span>Staff & Access Management</span>
+            </h3>
+            <button
+              onClick={() => setIsAddingUser(true)}
+              className="text-xs bg-gray-900 hover:bg-gray-800 text-white px-3 py-1.5 rounded-lg font-medium transition-colors"
+            >
+              + Add User
+            </button>
+          </div>
+          
+          {isAddingUser && (
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">Full Name</label>
+                <input type="text" value={newUserForm.name || ''} onChange={e => setNewUserForm({...newUserForm, name: e.target.value})} className="w-full border border-gray-300 rounded px-3 py-1.5 text-sm" placeholder="e.g. John Doe" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">Email Address</label>
+                <input type="email" value={newUserForm.email || ''} onChange={e => setNewUserForm({...newUserForm, email: e.target.value})} className="w-full border border-gray-300 rounded px-3 py-1.5 text-sm" placeholder="john@radiounity.ug" />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">Role</label>
+                <select value={newUserForm.role || ''} onChange={e => setNewUserForm({...newUserForm, role: e.target.value as Role})} className="w-full border border-gray-300 rounded px-3 py-1.5 text-sm bg-white">
+                  <option value="super_admin">Super Admin</option>
+                  <option value="managing_director">Managing Director</option>
+                  <option value="news_editor">News Editor</option>
+                  <option value="broadcast_director">Broadcast Director</option>
+                  <option value="field_reporter">Field Reporter</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">Password</label>
+                <input type="password" value={newUserPassword} onChange={e => setNewUserPassword(e.target.value)} className="w-full border border-gray-300 rounded px-3 py-1.5 text-sm" placeholder="Temporary password" />
+              </div>
+              <div className="sm:col-span-2 flex justify-end gap-2 mt-2">
+                <button onClick={() => setIsAddingUser(false)} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-200 rounded-lg">Cancel</button>
+                <button onClick={handleCreateUser} className="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium">Create User</button>
+              </div>
+            </div>
+          )}
           
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">

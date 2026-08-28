@@ -228,3 +228,32 @@ export async function requirePermission(requiredPermission: Permission) {
 
   return session;
 }
+
+export async function createUserAction(userData: Partial<User>, passwordPlain: string) {
+  const session = await getServerSession();
+  if (!session || session.role !== 'super_admin') {
+    throw new Error('UNAUTHORIZED: Only Super Admins can create new users.');
+  }
+
+  const normalizedEmail = userData.email?.toLowerCase().trim();
+  const hashedPassword = hashPassword(passwordPlain);
+
+  const { error } = await supabase.from('users').insert({
+    name: userData.name,
+    email: normalizedEmail,
+    role: userData.role,
+    bureau: userData.bureau || 'Lira City Hub',
+    designation: userData.designation || 'Staff',
+    password_hash: hashedPassword,
+    avatar_url: userData.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+    bio: userData.bio || '',
+    can_impersonate: 0
+  });
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  await logAudit(session.email, session.role, 'USER_CREATED', `Created new user: ${normalizedEmail}`);
+  return { success: true };
+}
