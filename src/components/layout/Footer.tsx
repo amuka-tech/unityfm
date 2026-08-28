@@ -91,14 +91,15 @@ export function Footer() {
 
           {/* Col 3: Categories & Shows */}
           <div className="space-y-3">
-            <h4 className="text-white font-bold text-sm tracking-wider uppercase">Categories & TV</h4>
+            <h4 className="text-white font-bold text-sm tracking-wider uppercase">Explore & Info</h4>
             <ul className="space-y-2 text-xs">
+              <li><Link href="/about" className="hover:text-brand-gold transition-colors font-semibold text-brand-gold">• About Us</Link></li>
+              <li><Link href="/staff" className="hover:text-brand-gold transition-colors font-semibold text-brand-gold">• Our Staff</Link></li>
               <li><Link href="/politics" className="hover:text-brand-gold transition-colors">• Politics & Governance</Link></li>
               <li><Link href="/business" className="hover:text-brand-gold transition-colors">• Agribusiness & Commodity Rates</Link></li>
               <li><Link href="/sports" className="hover:text-brand-gold transition-colors">• FUFA Drum & Sports</Link></li>
               <li><Link href="/lifestyle" className="hover:text-brand-gold transition-colors">• Luo Culture & Tekwaro</Link></li>
               <li><Link href="/shows" className="hover:text-brand-gold transition-colors">• TV Schedule (Schedule)</Link></li>
-              <li><Link href="/videos" className="hover:text-brand-gold transition-colors">• Investigative Bulletins</Link></li>
             </ul>
           </div>
 
