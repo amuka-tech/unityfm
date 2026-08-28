@@ -55,7 +55,7 @@ export function NewsroomDesk({
   const [formTitle, setFormTitle] = useState('');
   const [formExcerpt, setFormExcerpt] = useState('');
   const [formContent, setFormContent] = useState('');
-  const [formImage, setFormImage] = useState('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1000');
+  const [formImage, setFormImage] = useState('');
   const [formCategorySlug, setFormCategorySlug] = useState('lira-city');
   const [formLocation, setFormLocation] = useState('Lira City');
   const [formIsBreaking, setFormIsBreaking] = useState(false);
@@ -120,7 +120,7 @@ export function NewsroomDesk({
     setFormTitle('');
     setFormExcerpt('');
     setFormContent('');
-    setFormImage(stockImages[0].url);
+    setFormImage('');
     setFormCategorySlug('lira-city');
     setFormLocation('Lira City');
     setFormIsBreaking(false);
@@ -458,7 +458,7 @@ export function NewsroomDesk({
 
                 {/* Image Picker */}
                 <div>
-                  <label className="block text-gray-700 font-bold mb-1">Featured Image URL</label>
+                  <label className="block text-gray-700 font-bold mb-1">Featured Image (Upload or enter URL)</label>
                   <div className="flex gap-4 mb-3">
                     <div className="flex-1 space-y-3">
                       <div className="flex space-x-2">
