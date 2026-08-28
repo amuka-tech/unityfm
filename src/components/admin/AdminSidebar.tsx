@@ -139,10 +139,10 @@ export function AdminSidebar({
         
         {/* Top Logo Area */}
         <div className={`h-16 flex items-center px-5 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-100'}`}>
-          <div className="flex items-center space-x-2 text-brand-crimson">
-            <Tv className="w-6 h-6 flex-shrink-0" />
+          <div className="flex items-center space-x-2">
+            <img src="/radio-unity-logo.png" alt="Radio Unity" className="w-8 h-8 object-contain" />
             {(!isCollapsed || mobileOpen) && (
-              <span className={`font-heading font-black text-xl tracking-tight`}>Unity<span className={isDarkMode ? 'text-gray-200' : 'text-gray-900'}>TV</span></span>
+              <span className={`font-heading font-black text-xl tracking-tight ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Radio Unity</span>
             )}
           </div>
           {mobileOpen && setMobileOpen && (
