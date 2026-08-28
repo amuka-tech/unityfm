@@ -96,51 +96,93 @@ export default function AboutPage() {
             Unity FM maintains a robust news department known for delivering local and international breaking news. The station designs its programming to cater to both rural communities and urban listeners, spanning social, cultural, health, and political topics.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-brand-crimson font-bold text-lg">
-                <Mic2 className="w-5 h-5" />
-                <h3>Daily Talk & News</h3>
-              </div>
-              <ul className="space-y-2 text-neutral-700 font-medium pl-7">
-                <li>• Great Morning Show</li>
-                <li>• The Family Agenda</li>
-                <li>• Sunday Miscellany</li>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            {/* Monday - Thursday */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200">
+              <h3 className="text-xl font-bold text-brand-crimson uppercase border-b border-neutral-100 pb-3 mb-4">Monday - Thursday</h3>
+              <ul className="space-y-3 text-sm">
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">3:00am - 6:45am</span><span className="font-semibold text-neutral-900 capitalize">Morning Devotion</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">6:45am</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">7:00am - 8:30am</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">8:30am - 10:45am</span><span className="font-semibold text-neutral-900 capitalize">Odiko Alyet</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">10:45am - 11:00am</span><span className="font-semibold text-neutral-900 capitalize">Sports Update</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">11:00am - 12:45pm</span><span className="font-semibold text-neutral-900 capitalize">Mid Morning Rave</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">12:45pm</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">1:00pm - 2:00pm</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">2:00pm - 4:30pm</span><span className="font-semibold text-neutral-900 capitalize">The Afternoon Drive</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">4:30pm - 5:00pm</span><span className="font-semibold text-neutral-900 capitalize">Sports Update</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">5:00pm - 6:45pm</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">6:45pm</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">7:00pm - 10:00pm</span><span className="font-semibold text-neutral-900 capitalize">Gwec Apoko</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">10:00pm - 11:00pm</span><span className="font-semibold text-neutral-900 capitalize">Sports Updates</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">11:00pm - 3:00am</span><span className="font-semibold text-neutral-900 capitalize">Quiet Storm</span></li>
               </ul>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-brand-crimson font-bold text-lg">
-                <Activity className="w-5 h-5" />
-                <h3>Health & Civic Duty</h3>
-              </div>
-              <ul className="space-y-2 text-neutral-700 font-medium pl-7">
-                <li>• The Unity Doctor</li>
-                <li>• Crime Prevention</li>
+            {/* Friday */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200">
+              <h3 className="text-xl font-bold text-brand-crimson uppercase border-b border-neutral-100 pb-3 mb-4">Friday</h3>
+              <ul className="space-y-3 text-sm">
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">3:00am - 6:45am</span><span className="font-semibold text-neutral-900 capitalize">Morning Devotion</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">6:45am</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">7:00am - 8:30am</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">8:30am - 10:45am</span><span className="font-semibold text-neutral-900 capitalize">Odiko Alyet</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">10:45am - 11:00am</span><span className="font-semibold text-neutral-900 capitalize">Sports Update</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">11:00am - 12:45pm</span><span className="font-semibold text-neutral-900 capitalize">Mid Morning Rave</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">12:45pm</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">1:00pm - 2:00pm</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">2:00pm - 4:30pm</span><span className="font-semibold text-neutral-900 capitalize">Tekwaro</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">4:30pm - 5:00pm</span><span className="font-semibold text-neutral-900 capitalize">Sports Update</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">5:00pm - 6:45pm</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">6:45pm</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">7:00pm - 11:00pm</span><span className="font-semibold text-neutral-900 capitalize">Jiri</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">11:00pm - 3:00am</span><span className="font-semibold text-neutral-900 capitalize">Throwback Friday</span></li>
               </ul>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-brand-crimson font-bold text-lg">
-                <Music className="w-5 h-5" />
-                <h3>Youth & Entertainment</h3>
-              </div>
-              <ul className="space-y-2 text-neutral-700 font-medium pl-7">
-                <li>• Unity Top 20</li>
-                <li>• The Kids Show</li>
-                <li>• The Teenage Show</li>
+            {/* Saturday */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200">
+              <h3 className="text-xl font-bold text-brand-crimson uppercase border-b border-neutral-100 pb-3 mb-4">Saturday</h3>
+              <ul className="space-y-3 text-sm">
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">3:00am - 6:45am</span><span className="font-semibold text-neutral-900 capitalize">Morning Devotion</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">6:45am</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">7:00am - 8:30am</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">8:30am - 10:45am</span><span className="font-semibold text-neutral-900 capitalize">Parliament Alwak</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">10:45am - 11:00am</span><span className="font-semibold text-neutral-900 capitalize">Sports Update</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">11:00am - 12:45pm</span><span className="font-semibold text-neutral-900 capitalize">Education Forum</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">12:45pm</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">1:00pm - 2:00pm</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">2:00pm - 5:00pm</span><span className="font-semibold text-neutral-900 capitalize">Top 20</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">5:00pm - 6:45pm</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">6:45pm</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">7:00pm - 10:00pm</span><span className="font-semibold text-neutral-900 capitalize">Gwec Apoko</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">10:00pm - 11:00pm</span><span className="font-semibold text-neutral-900 capitalize">Gero Yi Ot</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">11:00pm - 3:00am</span><span className="font-semibold text-neutral-900 capitalize">Dance Mania</span></li>
               </ul>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-brand-crimson font-bold text-lg">
-                <Trophy className="w-5 h-5" />
-                <h3>Athletics</h3>
-              </div>
-              <ul className="space-y-2 text-neutral-700 font-medium pl-7">
-                <li>• Sports Roundup</li>
+            {/* Sunday */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-neutral-200">
+              <h3 className="text-xl font-bold text-brand-crimson uppercase border-b border-neutral-100 pb-3 mb-4">Sunday</h3>
+              <ul className="space-y-3 text-sm">
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">3:00am - 6:45am</span><span className="font-semibold text-neutral-900 capitalize">Morning Devotion</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">6:45am</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">7:00am - 8:30am</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">8:30am - 10:45am</span><span className="font-semibold text-neutral-900 capitalize">Lego</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">10:45am - 11:00am</span><span className="font-semibold text-neutral-900 capitalize">Unity Kids</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">11:00am - 12:45pm</span><span className="font-semibold text-neutral-900 capitalize">The Youth Hub</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">12:45pm</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">1:00pm - 2:00pm</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">2:00pm - 5:00pm</span><span className="font-semibold text-neutral-900 capitalize">Unity Miscellany</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">5:00pm - 6:45pm</span><span className="font-semibold text-neutral-900 capitalize">Announcements</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">6:45pm</span><span className="font-semibold text-neutral-900 capitalize">News in Luo</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">7:00pm - 10:00pm</span><span className="font-semibold text-neutral-900 capitalize">Gwec Apoko</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">10:00pm - 11:00pm</span><span className="font-semibold text-neutral-900 capitalize">Gero Yi Ot</span></li>
+                <li className="flex"><span className="text-neutral-500 w-36 shrink-0">11:00pm - 3:00am</span><span className="font-semibold text-neutral-900 capitalize">Overnight Service</span></li>
               </ul>
             </div>
+
           </div>
         </div>
       </section>
